@@ -1,0 +1,4 @@
+solr: http://localhost:8983/solr
+user: dev
+password: '@testuser@'
+classpath: ./lib/java_lib/

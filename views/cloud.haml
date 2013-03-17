@@ -1,0 +1,33 @@
+%html  
+	%head
+		%link{:rel => "StyleSheet", :href => "css/blueprint/screen.css", :type => "text/css", :media => "screen"}
+		%link{:rel => "StyleSheet", :href => "css/jqcloud.css", :type => "text/css", :media => "screen"}
+		%script{:type => "text/javascript", :src => "javascript/jquery-1.9.1.min.js"}
+		%script{:type => "text/javascript", :src => "javascript/awesome.js"}
+	%body
+		%div.container
+			%table
+				%thead
+					%tr
+						%th names
+						%th orgs
+						%th locs
+				%tbody
+					%tr
+						%td
+							%div{:id => "wordcloud",:style => "height:300px;width:300px"}
+								-@names.each do |name|
+									%span{:'data-weight' => "#{name[1]}"}
+										=name[0]
+						%td
+							%div{:id => "wordcloud2", :style => "height:300px;width:300px"}
+								-@orgs.each do |org|
+									%span{:'data-weight' => "#{org[1]}"}
+										=org[0]
+						%td
+							%div{:id => "wordcloud3", :style => "height:300px;width:300px"}
+								-@locs.each do |loc|
+									%span{:'data-weight' => "#{loc[1]}"}
+										=loc[0]
+	%script{:type => "text/javascript", :src => "javascript/test.js"}
+	

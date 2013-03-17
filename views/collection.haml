@@ -1,0 +1,38 @@
+%html  
+	%head
+		%link{:rel => "StyleSheet", :href => "css/blueprint/screen.css", :type => "text/css", :media => "screen"}
+		%title ERI: #{@page}
+	%body
+		%div.container
+			Electronic Records Index
+			%div{:style => "background-color:#eee"}
+				%h1 #{@page}
+			%div{:style => "background-color:#ddd"}
+				search:
+				%form{:action => "/results", :method => "post"}
+					%input{:type => "text",  :name => "query", :size => 50, :style => "font-size: 18px;"}
+					%select{:name => "qType"}
+						%option{:value => "full text"} full text
+						%option{:value => "names"} names
+						%option{:value => "orgs"} organizations
+						%option{:value => "locs"} locations
+					%input{:type => "submit"}
+			%h2
+				#{@cid}: #{@cname}
+			%table
+				%thead
+					%tr
+						%th{:style => "width:33%"} archival files
+						%th media items
+				%tbody
+					%tr
+						%td{:style => "vertical-align:top"}
+							- @series.each do |ser|
+								%a{:href => "/series?series=#{ser}"}
+									#{ser}
+								%br
+						%td
+							- @media.each do |disk|
+								%a{:href => "/disk?did=#{disk}"}
+									#{disk}
+								%br	 

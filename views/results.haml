@@ -1,0 +1,73 @@
+%html  
+	%head
+		%link{:rel => "StyleSheet", :href => "css/blueprint/screen.css", :type => "text/css", :media => "screen"}
+		%title ERI: #{@page}
+	%body
+		%div.container
+			Electronic Records Index
+			%div{:style => "background-color:#eee"}
+				%h1 #{@page}
+			%div{:style => "background-color:#ddd"}
+				search:
+				%form{:action => "/results", :method => "post"}
+					%input{:type => "text",  :name => "query", :size => 50, :style => "font-size: 18px;"}
+					%select{:name => "qType"}
+						%option{:value => "full text"} full text
+						%option{:value => "names"} names
+						%option{:value => "orgs"} organizations
+						%option{:value => "locs"} locations
+					%input{:type => "submit"}
+			%h3
+				="Query: #{@q}"
+				%br
+				="Query Type: #{@qt}"
+			%h2 Results
+			%p= "Number of records located: #{@result['response']['numFound']}"
+			- @result['response']['docs'].each do |doc|
+				%h4
+					%a{:href => "/file?id=#{doc['id']}"} #{doc['filename']} 
+				%table
+					%thead
+						%tr
+							%th metadata
+							%th names
+							%th organizations
+							%th locations
+					%tbody
+						%tr
+							%td{:width => "25%", :style => "vertical-align:top"}
+								-@fields.each do |field|
+									-if doc[field[1]]
+										%b 
+											-if field[0] == "series" then
+												archival file	
+											-else
+												=field[0]
+										-if @links.include? field[0]
+											-if field[0] == "series" then
+												%a{:href => "/series?series=#{doc['series']}"}
+													=doc['parentseries']
+													=" > "
+													=doc['series']												
+											-elsif field[0] == "filename" then
+												%a{:href => "/file?id=#{doc['id']}"}
+													#{doc['id']}
+											-else
+												%a{:href => "/#{field[0]}?#{@links[field[0]]}=#{doc[@links[field[0]]]}"}
+													#{doc[field[1]]}
+										-else
+											#{doc[field[1]]}
+										%br
+							-ents = {"names" => "names", "orgs" => "organizations", "locs" => "locations"}
+							-ents.each do |ent|
+								%td{:width => "25%", :style => "vertical-align:top"}
+									-if doc[ent[0]] then
+										-set = Array.new doc[ent[0]]
+										-(0..10).each do |i|
+											%a{:href => "/results?qType=#{ent[0]}&query=%22#{set[i]}%22"}
+												=set[i]
+											%br
+									-if doc[ent[0]] && doc[ent[0]].size > 10 then
+										%a{:href => "/file?id=#{doc['id']}"}
+											%div{:style => "color:#FF0000"}
+												See all entities

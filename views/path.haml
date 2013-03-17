@@ -1,0 +1,33 @@
+%html  
+	%head
+		%link{:rel => "StyleSheet", :href => "css/blueprint/screen.css", :type => "text/css", :media => "screen"}
+		%title ERI: #{@page}
+	%body
+		%div.container
+			Electronic Records Index
+			%div{:style => "background-color:#eee"}
+				%h1 #{@page}
+			%div{:style => "background-color:#ddd"}
+				search:
+				%form{:action => "/results", :method => "post"}
+					%input{:type => "text",  :name => "query", :size => 50, :style => "font-size: 18px;"}
+					%select{:name => "qType"}
+						%option{:value => "full text"} full text
+						%option{:value => "names"} names
+						%option{:value => "orgs"} organizations
+						%option{:value => "locs"} locations
+					%input{:type => "submit"}
+			%p placeholder for path view
+			-count = 0
+			-paths = @path.split("/")
+			-paths.each do |path|
+				-if count < paths.size - 1 then
+					="|"
+					-count.times do
+						="--"
+					=">"
+					=path
+					%br
+				-count += 1
+
+	

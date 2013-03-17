@@ -1,0 +1,55 @@
+%html  
+	%head
+		%link{:rel => "StyleSheet", :href => "css/blueprint/screen.css", :type => "text/css", :media => "screen"}
+		%title ERI: #{@page}
+	%body
+		%div.container
+			Electronic Records Index
+			%div{:style => "background-color:#eee"}
+				%h1 #{@page}
+			%div{:style => "background-color:#ddd"}
+				search:
+				%form{:action => "/results", :method => "post"}
+					%input{:type => "text",  :name => "query", :size => 50, :style => "font-size: 18px;"}
+					%select{:name => "qType"}
+						%option{:value => "full text"} full text
+						%option{:value => "names"} names
+						%option{:value => "orgs"} organizations
+						%option{:value => "locs"} locations
+					%input{:type => "submit"}
+			%hr
+			- doc = @result['response']['docs'][0]
+			%h4 Metadata
+			%table
+				%tbody
+					-@fields.each do |field|
+						-if doc[field[1]]
+							%tr{:valign => "top"}
+								%td{:width => "15%"}
+									=field[0]
+								
+								-if @links.include? field[0]
+									%td
+										%a{:href => "/#{field[0]}?#{@links[field[0]]}=#{doc[@links[field[0]]]}"}
+											#{doc[field[1]]}
+								-else
+									%td
+										#{doc[field[1]]}
+			%h4 Named Entities
+			-ents = {"names" => "names", "orgs" => "organizations", "locs" => "locations"}
+			-ents.each do |ent| 
+				-if doc[ent[0]] then
+					%b
+						=ent[1] << ":"
+					%br
+					-set = SortedSet.new doc[ent[0]]
+					-count = 0
+					-set.each do |member|
+						%a{:href => "/results?qType=#{ent[0]}&query=%22#{member}%22"}
+							- if count < set.size - 1
+								= "#{member},  "
+							- else
+								= "#{member}"
+						- count += 1	
+					%br
+					%br
