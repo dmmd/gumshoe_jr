@@ -1,45 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
-
 <schema name="example" version="1.5">
   <fields>
-    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false"/>
-    <field name="filename" type="string" indexed="true" stored="true" required="false"
-      multiValued="false"/>
-    <field name="accessname" type="string" indexed="true" stored="true" required="false"
-      multiValued="false"/>
-    <field name="cName" type="string" indexed="true" stored="true" required="true"
-      multiValued="false"/>
-    <field name="series" type="string" indexed="true" stored="true" required="false"
-      multiValued="false"/>
-    <field name="parentseries" type="string" indexed="true" stored="true" required="false"
-      multiValued="false"/>
-    <field name="cid" type="string" indexed="true" stored="true" required="false"
-      multiValued="false"/>
-    <field name="did" type="string" indexed="true" stored="true" required="false"
-      multiValued="false"/>
-    <field name="fid" type="string" indexed="true" stored="true" required="false"
-      multiValued="false"/>
-    <field name="fType" type="string" indexed="true" stored="true" required="false"
-      multiValued="false"/>
-    <field name="fSize" type="string" indexed="true" stored="true" required="false"
-      multiValued="false"/>
-    <field name="path" type="string" indexed="true" stored="true" required="false"
-      multiValued="false"/>
-    <field name="mDate" type="date" indexed="true" stored="true" required="false"
-      multiValued="false"/>
-    <field name="language" type="string" indexed="true" stored="true" required="false"
-      multiValued="false"/>
-    <field name="names" type="string" indexed="true" stored="true" required="false"
-      multiValued="true"/>
-    <field name="orgs" type="string" indexed="true" stored="true" required="false"
-      multiValued="true"/>
-    <field name="locs" type="string" indexed="true" stored="true" required="false"
-      multiValued="true"/>
-    <field name="dates" type="string" indexed="true" stored="true" required="false"
-      multiValued="true"/>
-    <field name="text" type="text_general" indexed="true" stored="false" required="false"
-      multiValued="true"/>
+    <field name="id" type="text_general" indexed="true" stored="true" required="true" multiValued="false"/>
+    <field name="filename" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
+    <field name="accessname" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
+    <field name="cName" type="text_general" indexed="true" stored="true" required="true" multiValued="false"/>
+    <field name="series" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
+    <field name="parentseries" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
+    <field name="cid" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
+    <field name="did" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
+    <field name="fid" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
+    <field name="fType" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
+    <field name="fSize" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
+    <field name="path" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
+    <field name="mDate" type="date" indexed="true" stored="true" required="false" multiValued="false"/>
+    <field name="language" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
+    <field name="names" type="text_general" indexed="true" stored="true" required="false" multiValued="true"/>
+    <field name="orgs" type="text_general" indexed="true" stored="true" required="false" multiValued="true"/>
+    <field name="locs" type="text_general" indexed="true" stored="true" required="false" multiValued="true"/>
+    <field name="dates" type="text_general" indexed="true" stored="true" required="false" multiValued="true"/>
+    <field name="text" type="text_general" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="_version_" type="long" indexed="true" stored="true"/>
 
     <dynamicField name="*_i" type="int" indexed="true" stored="true"/>
@@ -60,7 +40,6 @@
 
     <!-- Type used to index the lat and lon components for the "location" FieldType -->
     <dynamicField name="*_coordinate" type="tdouble" indexed="true" stored="false"/>
-
     <dynamicField name="*_dt" type="date" indexed="true" stored="true"/>
     <dynamicField name="*_dts" type="date" indexed="true" stored="true" multiValued="true"/>
     <dynamicField name="*_p" type="location" indexed="true" stored="true"/>
