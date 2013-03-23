@@ -49,14 +49,14 @@
 											-else
 												=field[0]
 										-if @links.include? field[0]
-											-if field[0] == "series" then
-												%a{:href => "/series?series=#{doc['series']}"}
+											-if field[0] == "component" then
+												%a{:href => "/component?component=#{doc['series']}"}
 													=doc['parentseries']
 													=" > "
 													=doc['series']												
 											-elsif field[0] == "filename" then
 												%a{:href => "/file?id=#{doc['id']}"}
-													#{doc['id']}
+													#{doc['filename']}
 											-else
 												%a{:href => "/#{field[0]}?#{@links[field[0]]}=#{doc[@links[field[0]]]}"}
 													#{doc[field[1]]}

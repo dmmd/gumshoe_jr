@@ -54,10 +54,10 @@ get_or_post '/results' do
   }
   
   @result = response
-  @fields = {"id" => "id", "filename" => "filename", "file type" => "fType", "size" => "fSize", 
+  @fields = {"filename" => "filename", "file type" => "fType", "size" => "fSize", 
     "original filename" => "accessfilename", "lmod date" => "mDate", "language" => "language", "collection" => "cName", 
-    "series" => "series", "disk" => "did", "path" => "path"}
-  @links = {"collection" => "cid", "series" => "series", "disk" => "did", "filename" => "id"}
+    "component" => "series", "disk" => "did", "path" => "path"}
+  @links = {"collection" => "cid", "component" => "component", "disk" => "did", "filename" => "id"}
   haml :results
   
 end
