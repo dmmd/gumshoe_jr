@@ -7,9 +7,9 @@
     <field name="cName" type="text_general" indexed="true" stored="true" required="true" multiValued="false"/>
     <field name="series" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
     <field name="parentseries" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
-    <field name="cid" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
-    <field name="did" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
-    <field name="fid" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
+    <field name="cid" type="string" indexed="true" stored="true" required="false" multiValued="false"/>
+    <field name="did" type="string" indexed="true" stored="true" required="false" multiValued="false"/>
+    <field name="fid" type="string" indexed="true" stored="true" required="false" multiValued="false"/>
     <field name="fType" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
     <field name="fSize" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
     <field name="path" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
