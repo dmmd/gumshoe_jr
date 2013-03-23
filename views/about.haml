@@ -25,5 +25,25 @@
 						%option{:value => "orgs"} organizations
 						%option{:value => "locs"} locations
 					%input{:type => "submit"}
-
+			%br
+			%br
+			%p
+				%i
+					Electronic Records Index 
+				is a full-text index of text-based digital documents from collections held in #{settings.department} of #{settings.organization} 
+				These text-based documents have been indexed by means of migration to Microsoft's .docx format and file parsing with 
+				%a{:href => "http://apache.org/"}
+					the Apache Software Foundation's 
+				%a{:href => "http://tika.apache.org/"}
+					Tika Library
+				\. Named Entity Extraction was accomplished with 
+				%a{:href => "http://apache.org/"} 
+					the Apache Software Foundation's 
+				%a{:href => "http://opennlp.apache.org"}
+					Open NLP Library
+				%br
+				%br
+				All record's in the index can be consulted in #{settings.department}'s reading room with advanced notification. For more information, 
+				%a{:href => "#{settings.homepage}"}contact #{settings.department} 
 				
+					

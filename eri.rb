@@ -1,6 +1,5 @@
 require 'sinatra'
 require 'sinatra/config_file'
-require 'puma'
 require 'haml'
 require 'rsolr'
 require 'trinidad'
@@ -63,11 +62,11 @@ get_or_post '/results' do
   
 end
 
-get '/series' do
-  @series = params[:series]
-  @page = "Archival File Display" 
+get '/component' do
+  @component = params[:component]
+  @page = "Component Display" 
   response = solr.get 'select', :params => {
-    :q=>"series:" << @series,
+    :q=>"series:" << @component,
     :start=>0,
     :rows=>2000
   }
@@ -115,7 +114,7 @@ get '/series' do
   	end
   end
   
-  haml :series
+  haml :component
 end
 
 get '/disk' do
@@ -187,11 +186,11 @@ get '/collection' do
     :fl => "series, parentseries, cName, did"
   }
 
-  @series = SortedSet.new
+  @components = SortedSet.new
   @media = SortedSet.new
   @cname
   response['response']['docs'].each do |doc|
-    @series.add doc['series']
+    @components.add doc['series']
     @media.add doc['did']
     @cname = doc['cName']
   end
@@ -220,3 +219,8 @@ get '/path' do
   @path = params["path"]
   haml :path
 end
+
+get '/about' do
+  @page = "About"
+  haml :about
+end  

@@ -5,6 +5,11 @@
 	%body
 		%div.container
 			Electronic Records Index
+			%br
+			%a{:href => "/"} home 
+			%a{:href => "/about"} about
+			%br
+			%br
 			%div{:style => "background-color:#eee"}
 				%h1 #{@page}
 			%div{:style => "background-color:#ddd"}
@@ -27,8 +32,8 @@
 				%tbody
 					%tr
 						%td{:style => "vertical-align:top"}
-							- @series.each do |ser|
-								%a{:href => "/series?series=#{ser}"}
+							- @components.each do |ser|
+								%a{:href => "/component?component=#{ser}"}
 									#{ser}
 								%br
 						%td

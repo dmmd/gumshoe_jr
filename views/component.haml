@@ -28,9 +28,7 @@
 				%a{:href => "/collection?cid=#{@result['response']['docs'][0]['cid']}"}
 					#{@result['response']['docs'][0]['cName']}
 				%br
-				Disk: #{@did}
-				%br
-				%img{:src => "/images/#{@did}p001.JPG"}
+				archival file:  #{@result['response']['docs'][0]['parentseries']} > #{@result['response']['docs'][0]['series']}
 			%table{:style => "background-color:#ccc"}
 				%thead
 					%tr
@@ -65,20 +63,18 @@
 				%thead
 					%tr
 						%th filename
-						%th archival files
 						%th type
 						%th date
-						
+						%th disk
 				%tbody
 					- @result['response']['docs'].each do |doc|
 						%tr
 							%td{:width => "25%"}
-								%a{:href => "/file?id=#{doc['id']}"}="#{doc['filename']}"
-							%td{:width => "25%"}
-								%a{:href => "/component?component=#{doc['series']}"}= "#{doc['parentseries']} > #{doc['series']}"
+								%a{:href => "/file?id=#{doc['id']}"}="#{doc['accessname']}"
 							%td{:width => "25%"}
 								="#{doc['fType']}"
 							%td{:width => "25%"}
 								="#{doc['mDate']}"
-
-		%script{:type => "text/javascript", :src => "javascript/test.js"}
+							%td{:width => "25%"}
+								%a{:href => "/disk?did=#{doc['did']}" }="#{doc['did']}"
+			%script{:type => "text/javascript", :src => "javascript/test.js"}
