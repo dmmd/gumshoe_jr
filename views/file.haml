@@ -1,6 +1,9 @@
 %html  
 	%head
 		%link{:rel => "StyleSheet", :href => "css/blueprint/screen.css", :type => "text/css", :media => "screen"}
+		%link{:rel => "StyleSheet", :href => "css/ui-lightness/jquery-ui-1.10.2.custom.min.css", :type => "text/css", :media => "screen"}
+		%script{:src =>"javascript/jquery-1.9.1.min.js"}
+		%script{:src =>"javascript/jquery-ui-1.10.2.custom.min.js"}
 		%title ERI: #{@page}
 	%body
 		%div.container
@@ -21,6 +24,7 @@
 						%option{:value => "names"} names
 						%option{:value => "orgs"} organizations
 						%option{:value => "locs"} locations
+					%input{:type => "hidden", :name => "start", :value => 0}
 					%input{:type => "submit"}
 			%hr
 			- doc = @result['response']['docs'][0]

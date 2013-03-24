@@ -1,7 +1,9 @@
 %html  
 	%head
 		%link{:rel => "StyleSheet", :href => "css/blueprint/screen.css", :type => "text/css", :media => "screen"}
-		%script{:type => "text/javascript", :src => "javascript/jquery-1.9.1.min.js"}
+		%link{:rel => "StyleSheet", :href => "css/ui-lightness/jquery-ui-1.10.2.custom.min.css", :type => "text/css", :media => "screen"}
+		%script{:src =>"javascript/jquery-1.9.1.min.js"}
+		%script{:src =>"javascript/jquery-ui-1.10.2.custom.min.js"}
 		%script{:type => "text/javascript", :src => "javascript/awesome.js"}
 		%title ERI: #{@page}
 	%body
@@ -23,6 +25,7 @@
 						%option{:value => "names"} names
 						%option{:value => "orgs"} organizations
 						%option{:value => "locs"} locations
+					%input{:type => "hidden", :name => "start", :value => 0}
 					%input{:type => "submit"}
 			%h2
 				%a{:href => "/collection?cid=#{@result['response']['docs'][0]['cid']}"}

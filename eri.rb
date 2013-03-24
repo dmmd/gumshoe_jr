@@ -40,6 +40,7 @@ get_or_post '/results' do
   @page = "Search Results" 
   @q = params[:query]
   @qt = params[:qType]
+  @start = params[:start].to_i
 
   if @qt == "full text" then
     @query = @q
@@ -49,15 +50,15 @@ get_or_post '/results' do
 
   response = solr.get 'select', :params => {
     :q => @query,
-    :start=>0,
-    :rows=>50
+    :start=> @start,
+    :rows=>20
   }
   
   @result = response
-  @fields = {"filename" => "filename", "file type" => "fType", "size" => "fSize", 
+  @fields = {"file type" => "fType", "size" => "fSize", 
     "original filename" => "accessfilename", "lmod date" => "mDate", "language" => "language", "collection" => "cName", 
     "component" => "series", "disk" => "did", "path" => "path"}
-  @links = {"collection" => "cid", "component" => "component", "disk" => "did", "filename" => "id"}
+  @links = {"collection" => "cid", "component" => "component", "disk" => "did"}
   haml :results
   
 end

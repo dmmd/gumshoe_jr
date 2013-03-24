@@ -1,6 +1,9 @@
 %html  
 	%head
 		%link{:rel => "StyleSheet", :href => "css/blueprint/screen.css", :type => "text/css", :media => "screen"}
+		%link{:rel => "StyleSheet", :href => "css/ui-lightness/jquery-ui-1.10.2.custom.min.css", :type => "text/css", :media => "screen"}
+		%script{:src =>"javascript/jquery-1.9.1.min.js"}
+		%script{:src =>"javascript/jquery-ui-1.10.2.custom.min.js"}
 		%title ERI: #{@page}
 	%body
 		%div.container
@@ -8,6 +11,7 @@
 			%br
 			%a{:href => "/"} home 
 			%a{:href => "/about"} about
+			%a{:href => settings.homepage} contact
 			%br
 			%br
 			%div{:style => "background-color:#eee"}
@@ -21,16 +25,34 @@
 						%option{:value => "names"} names
 						%option{:value => "orgs"} organizations
 						%option{:value => "locs"} locations
+					%input{:type => "hidden", :name => "start", :value => 0}
 					%input{:type => "submit"}
 			%h3
 				="Query: #{@q}"
 				%br
 				="Query Type: #{@qt}"
-			%h2 Results
-			%p= "Number of records located: #{@result['response']['numFound']}"
+			- count = @start + 1
+			%p
+				= "Number of records located: #{@result['response']['numFound']}"
+				%br
+				Displaying records #{@start + 1} through #{@start + 20}
+			%table
+				%tr
+					%td{:width => "33.3%", :style => "background-color:#ddd"}
+						-if @start >= 20 then
+							%a{:href => "/results?query=#{@query}&qType=#{@qt}&start=#{@start - 20}"}
+								<= previous twenty records
+					%td{:width => "33.3%", :style => "background-color:#ddd"}
+					%td{:width => "33.3%", :style => "background-color:#ddd;text-align:right"}
+						-if (@start + 20) < @result['response']['numFound']
+							%a{:href => "/results?query=#{@query}&qType=#{@qt}&start=#{@start + 20}"}
+								next twenty records =>
 			- @result['response']['docs'].each do |doc|
 				%h4
-					%a{:href => "/file?id=#{doc['id']}"} #{doc['filename']} 
+					= count.to_s
+					%a{:href => "/file?id=#{doc['id']}"}= doc['filename'] 
+					-count += 1
+
 				%table
 					%thead
 						%tr
@@ -76,3 +98,14 @@
 										%a{:href => "/file?id=#{doc['id']}"}
 											%div{:style => "color:#FF0000"}
 												See all entities
+			%table
+				%tr
+					%td{:width => "33.3%", :style => "background-color:#ddd"}
+						-if @start >= 20 then
+							%a{:href => "/results?query=#{@query}&qType=#{@qt}&start=#{@start - 20}"}
+								<= previous twenty records
+					%td{:width => "33.3%", :style => "background-color:#ddd"}
+					%td{:width => "33.3%", :style => "background-color:#ddd;text-align:right"}
+						-if (@start + 20) < @result['response']['numFound']
+							%a{:href => "/results?query=#{@query}&qType=#{@qt}&start=#{@start + 20}"}
+								next twenty records =>
