@@ -102,10 +102,10 @@
 				%tr
 					%td{:width => "33.3%", :style => "background-color:#ddd"}
 						-if @start >= 20 then
-							%a{:href => "/results?query=#{@query}&start=#{@start - 20}"}
+							%a{:href => "/results?query=#{@q}&queryType=#{@qt}&start=#{@start - 20}"}
 								<= previous twenty records
 					%td{:width => "33.3%", :style => "background-color:#ddd"}
 					%td{:width => "33.3%", :style => "background-color:#ddd;text-align:right"}
 						-if (@start + 20) < @result['response']['numFound']
-							%a{:href => "/results?query=#{@query}&start=#{@start + 20}"}
+							%a{:href => "/results?query=#{@q}&queryType=#{@qt}&start=#{@start + 20}"}
 								next twenty records =>
