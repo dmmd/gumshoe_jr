@@ -13,8 +13,6 @@
 			%a{:href => "/about"} about
 			%br
 			%br
-			%div{:style => "background-color:#eee"}
-				%h1 #{@page}
 			%div{:style => "background-color:#ddd"}
 				search:
 				%form{:action => "/results", :method => "post"}
@@ -26,6 +24,8 @@
 						%option{:value => "locs"} locations
 					%input{:type => "hidden", :name => "start", :value => 0}
 					%input{:type => "submit"}
+			%div{:style => "background-color:#eee"}
+				%h1 #{@page}		
 			%h2
 				#{@cid}: #{@cname}
 			%table

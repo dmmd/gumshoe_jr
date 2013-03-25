@@ -8,8 +8,11 @@
 	%body
 		%div.container
 			Electronic Records Index
-			%div{:style => "background-color:#eee"}
-				%h1 #{@page}
+			%br
+			%a{:href => "/"} home 
+			%a{:href => "/about"} about
+			%br
+			%br
 			%div{:style => "background-color:#ddd"}
 				search:
 				%form{:action => "/results", :method => "post"}
@@ -20,6 +23,8 @@
 						%option{:value => "orgs"} organizations
 						%option{:value => "locs"} locations
 					%input{:type => "submit"}
+			%div{:style => "background-color:#eee"}
+				%h1 #{@page}
 			%p placeholder for path view
 			-count = 0
 			-paths = @path.split("/")

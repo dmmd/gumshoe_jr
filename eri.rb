@@ -45,7 +45,9 @@ get_or_post '/results' do
   if @qt == "full text" then
     @query = @q
   else
-    @query = @qt << ":" << @q
+    @query = ""
+    @query << @qt
+    @query << ":" << @q
   end
 
   response = solr.get 'select', :params => {

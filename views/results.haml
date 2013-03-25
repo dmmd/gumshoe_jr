@@ -14,8 +14,6 @@
 			%a{:href => settings.homepage} contact
 			%br
 			%br
-			%div{:style => "background-color:#eee"}
-				%h1 #{@page}
 			%div{:style => "background-color:#ddd"}
 				search:
 				%form{:action => "/results", :method => "post"}
@@ -27,6 +25,9 @@
 						%option{:value => "locs"} locations
 					%input{:type => "hidden", :name => "start", :value => 0}
 					%input{:type => "submit"}
+			%div{:style => "background-color:#eee"}
+				%h1 #{@page}
+			
 			%h3
 				="Query: #{@q}"
 				%br
@@ -35,17 +36,17 @@
 			%p
 				= "Number of records located: #{@result['response']['numFound']}"
 				%br
-				Displaying records #{@start + 1} through #{@start + 20}
+				Displaying records #{@start + 1} through #{@start + @result['response']['docs'].size()}
 			%table
 				%tr
 					%td{:width => "33.3%", :style => "background-color:#ddd"}
 						-if @start >= 20 then
-							%a{:href => "/results?query=#{@query}&qType=#{@qt}&start=#{@start - 20}"}
+							%a{:href => "/results?query=#{@q}&qType=#{@qt}&start=#{@start - 20}"}
 								<= previous twenty records
 					%td{:width => "33.3%", :style => "background-color:#ddd"}
 					%td{:width => "33.3%", :style => "background-color:#ddd;text-align:right"}
 						-if (@start + 20) < @result['response']['numFound']
-							%a{:href => "/results?query=#{@query}&qType=#{@qt}&start=#{@start + 20}"}
+							%a{:href => "/results?query=#{@q}&qType=#{@qt}&start=#{@start + 20}"}
 								next twenty records =>
 			- @result['response']['docs'].each do |doc|
 				%h4
@@ -102,10 +103,10 @@
 				%tr
 					%td{:width => "33.3%", :style => "background-color:#ddd"}
 						-if @start >= 20 then
-							%a{:href => "/results?query=#{@q}&queryType=#{@qt}&start=#{@start - 20}"}
+							%a{:href => "/results?query=#{@q}&qType=#{@qt}&start=#{@start - 20}"}
 								<= previous twenty records
 					%td{:width => "33.3%", :style => "background-color:#ddd"}
 					%td{:width => "33.3%", :style => "background-color:#ddd;text-align:right"}
 						-if (@start + 20) < @result['response']['numFound']
-							%a{:href => "/results?query=#{@q}&queryType=#{@qt}&start=#{@start + 20}"}
+							%a{:href => "/results?query=#{@q}&qType=#{@qt}&start=#{@start + 20}"}
 								next twenty records =>
