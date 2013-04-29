@@ -12,6 +12,7 @@
 			%a{:href => "/"} home 
 			%a{:href => "/about"} about
 			%a{:href => settings.homepage} contact
+			%a{:href => "/logout"} logout
 			%br
 			%br
 			%div{:style => "background-color:#ddd"}
@@ -57,38 +58,59 @@
 				%table
 					%thead
 						%tr
-							%th metadata
+							%th collection info
+							%th file info
 							%th names
 							%th organizations
 							%th locations
 					%tbody
 						%tr
-							%td{:width => "25%", :style => "vertical-align:top"}
-								-@fields.each do |field|
-									-if doc[field[1]]
-										%b 
-											-if field[0] == "series" then
-												archival file	
-											-else
-												=field[0]
-										-if @links.include? field[0]
-											-if field[0] == "component" then
-												%a{:href => "/component?component=#{doc['series']}"}
-													=doc['parentseries']
-													=" > "
-													=doc['series']												
-											-elsif field[0] == "filename" then
-												%a{:href => "/file?id=#{doc['id']}"}
-													#{doc['filename']}
-											-else
-												%a{:href => "/#{field[0]}?#{@links[field[0]]}=#{doc[@links[field[0]]]}"}
-													#{doc[field[1]]}
-										-else
-											#{doc[field[1]]}
-										%br
+							%td{:width => "20%", :style => "vertical-align:top"}
+								%b
+									name:
+								%br
+								%a{:href => "/collection?cid=#{doc['cid']}"}
+									=doc['cName']
+								%br
+								%b	
+									component:
+								%br
+								=doc['parentseries'] << " > "
+								%a{:href => "/component?component=#{doc['series']}"}
+									=doc['series']	
+								%br
+								%b
+									disk id:
+								%br
+								%a{:href => "/collection?cid=#{doc['cid']}"}
+									=doc['did']
+							%td{:width => "20%", :style => "vertical-align:top"}
+								-if !doc['accessfilename'] == nil then
+									%b 
+										original filename:
+									%br
+								%b
+									file type:
+								%br
+								=doc['fType']
+								%br
+								%b
+									file size:
+								%br
+								=@tm.convert_bytes doc['fSize']
+								%br
+								%b
+									last modification date:
+								%br
+								=@tm.convert_time doc['mDate']
+								%br
+								%b
+									language:
+								%br
+								=doc['language']
 							-ents = {"names" => "names", "orgs" => "organizations", "locs" => "locations"}
 							-ents.each do |ent|
-								%td{:width => "25%", :style => "vertical-align:top"}
+								%td{:width => "20%", :style => "vertical-align:top"}
 									-if doc[ent[0]] then
 										-set = Array.new doc[ent[0]]
 										-(0..10).each do |i|

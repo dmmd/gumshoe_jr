@@ -11,6 +11,8 @@
 			%br
 			%a{:href => "/"} home 
 			%a{:href => "/about"} about
+			%a{:href => settings.homepage} contact
+			%a{:href => "/logout"} logout
 			%br
 			%br
 			%div{:style => "background-color:#ddd"}
@@ -28,22 +30,55 @@
 				%h1 #{@page}
 			%hr
 			- doc = @result['response']['docs'][0]
+			%h3
+				=doc['filename']
 			%h4 Metadata
 			%table
 				%tbody
-					-@fields.each do |field|
-						-if doc[field[1]]
-							%tr{:valign => "top"}
-								%td{:width => "15%"}
-									=field[0]
-								
-								-if @links.include? field[0]
-									%td
-										%a{:href => "/#{field[0]}?#{@links[field[0]]}=#{doc[@links[field[0]]]}"}
-											#{doc[field[1]]}
-								-else
-									%td
-										#{doc[field[1]]}
+					%tr
+						%td{:width => "15%"}
+							collection name
+						%td
+							%a{:href => "/collection?cid=#{doc['cid']}"}
+								=doc['cName']
+					%tr
+						%td
+							component
+						%td
+							=doc['parentseries']  << " > "
+							%a{:href => "/component?component=#{doc['series']}"}
+								=doc['series']
+					%tr
+						%td
+							media id
+						%td
+							%a{:href => "/disk?did=#{doc['did']}"}
+								=doc['did']
+					%tr
+						%td
+							path
+						%td
+							=doc['path']
+					%tr
+						%td
+							file type
+						%td
+							=doc['fType']
+					%tr
+						%td
+							file size
+						%td
+							=@tm.convert_bytes doc['fSize']
+					%tr
+						%td
+							language
+						%td
+							=doc['language']
+					%tr
+						%td
+							last modification date
+						%td
+							=@tm.convert_time doc['mDate']
 			%h4 Named Entities
 			-ents = {"names" => "names", "orgs" => "organizations", "locs" => "locations"}
 			-ents.each do |ent| 

@@ -3,6 +3,16 @@ require 'sinatra/config_file'
 require 'haml'
 require 'rsolr'
 require 'trinidad'
+require 'lib/time.rb'
+require 'lib/login.rb'
+require 'lib/log.rb'
+require 'sinatra/flash'
+
+include TimeModule
+include EriAuth
+include EriLog
+
+enable :sessions
 
 configure do
   set :server, :trinidad
@@ -11,16 +21,16 @@ end
 config_file './conf/eri.yml'
 solr = RSolr.connect :url => settings.solr
 
-use Rack::Auth::Basic, "ERI Restricted" do |username, password|
-  [username, password] == [settings.user, settings.password]
-end
-
 def get_or_post(path, opts={}, &block)
   get(path, opts, &block)
   post(path, opts, &block)
 end
 
-get '/' do 
+get '/' do
+  if(session['login'] != true)
+    redirect "/login"
+  end
+  
   @page = "Electronic Records Index" 
   response = solr.get 'select', :params => {
     :q=>params["id:*"],
@@ -36,12 +46,47 @@ get '/' do
   haml :index
 end
 
+get "/login" do
+  haml :login
+end
+
+get "/logout" do
+  session["login"] = nil
+  session["user"] = nil
+  flash[:notice] = "You have been logged out"
+  redirect "/"
+end
+
+post '/authenticate' do
+  login = params[:name]
+  password = params[:password]
+  puts params
+  result = EriAuth.test_login(login, password)
+  puts "RESULT " << result.to_s
+  if result == true then 
+    session["login"] = true
+    session["user"] = login
+    puts "user logged in " +  session["user"]
+    redirect "/"
+  else
+    flash[:error] = "Login failed"
+    redirect "/login"
+  end
+end
+
 get_or_post '/results' do
+  
+  if(session['login'] != true)
+    redirect "/login"
+  end
+  
   @page = "Search Results" 
   @q = params[:query]
   @qt = params[:qType]
   @start = params[:start].to_i
-
+  
+  EriLog.log_search(session['user'], @qt, @q) 
+  
   if @qt == "full text" then
     @query = @q
   else
@@ -57,15 +102,21 @@ get_or_post '/results' do
   }
   
   @result = response
-  @fields = {"file type" => "fType", "size" => "fSize", 
-    "original filename" => "accessfilename", "lmod date" => "mDate", "language" => "language", "collection" => "cName", 
-    "component" => "series", "disk" => "did", "path" => "path"}
+  @fields = {"collection" => "cName", "component" => "series", "disk id" => "did", "file type" => "fType", "size" => "fSize", 
+    "original filename" => "accessfilename", "mod date" => "mDate", "language" => "language"} 
+  
   @links = {"collection" => "cid", "component" => "component", "disk" => "did"}
+  @tm = TimeModule
   haml :results
   
 end
 
 get '/component' do
+  
+  if(session['login'] != true)
+    redirect "/login"
+  end
+  
   @component = params[:component]
   @page = "Component Display" 
   response = solr.get 'select', :params => {
@@ -121,6 +172,11 @@ get '/component' do
 end
 
 get '/disk' do
+  
+  if(session['login'] != true)
+    redirect "/login"
+  end
+  
   @page = "Media Display" 
   @did = params[:did]
   @cname = params[:cname]
@@ -179,6 +235,11 @@ get '/disk' do
 end
 
 get '/collection' do
+  
+  if(session['login'] != true)
+    redirect "/login"
+  end
+  
   @page = "Collection Display" 
   @cid = params[:cid]
 
@@ -202,6 +263,11 @@ get '/collection' do
 end
 
 get '/file' do
+  
+  if(session['login'] != true)
+    redirect "/login"
+  end
+  
   @page = "File Display" 
   @id = params[:id]
   @fields = {"id" => "id", "filename" => "filename", "file type" => "fType", "size" => "fSize", "original filename" => "accessfilename", "last modification date" => "mDate", "language" => "language", "collection" => "cName", "series" => "series", "disk" => "did", "path" => "path"}
@@ -212,18 +278,32 @@ get '/file' do
     :start=>0,
     :rows=>50
   }
-
+  
+  EriLog.log_file(session['user'], @id) 
+  
   @result = response
+  @tm = TimeModule
   haml :file
 end
 
 get '/path' do
+  
+  if(session['login'] != true)
+    redirect "/login"
+  end
+  
+  
   @page = "Path Display" 
   @path = params["path"]
   haml :path
 end
 
 get '/about' do
+  
+  if(session['login'] != true)
+    redirect "/login"
+  end
+  
   @page = "About"
   haml :about
-end  
+end 
