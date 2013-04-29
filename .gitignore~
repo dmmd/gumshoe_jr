@@ -1,3 +1,4 @@
 jetty/solr/eri/data/*
 .DS_Store
 public/images/*
+log/*
