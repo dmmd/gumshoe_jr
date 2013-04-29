@@ -12,6 +12,8 @@ include TimeModule
 include EriAuth
 include EriLog
 
+v = "Electronic Records Index [0.2.0a]"
+
 enable :sessions
 
 configure do
@@ -31,6 +33,7 @@ get '/' do
     redirect "/login"
   end
   
+  @version = v
   @page = "Electronic Records Index" 
   response = solr.get 'select', :params => {
     :q=>params["id:*"],
@@ -47,9 +50,12 @@ get '/' do
 end
 
 get "/login" do
+  @version = v
+  @page = "Login to ERI"
   haml :login
 end
 
+#administrative functions
 get "/logout" do
   session["login"] = nil
   session["user"] = nil
@@ -74,6 +80,7 @@ post '/authenticate' do
   end
 end
 
+#controllers w/views
 get_or_post '/results' do
   
   if(session['login'] != true)
@@ -84,6 +91,7 @@ get_or_post '/results' do
   @q = params[:query]
   @qt = params[:qType]
   @start = params[:start].to_i
+  @version = v
   
   EriLog.log_search(session['user'], @qt, @q) 
   
@@ -125,7 +133,7 @@ get '/component' do
     :rows=>2000
   }
   @result = response
-  
+  @version = v
   @names = Hash.new
   @orgs = Hash.new
   @locs = Hash.new
@@ -180,7 +188,8 @@ get '/disk' do
   @page = "Media Display" 
   @did = params[:did]
   @cname = params[:cname]
-
+  @version = v
+  
   response = solr.get 'select', :params => {
     :q=>"did:" << @did,
     :start=>0,
@@ -240,6 +249,7 @@ get '/collection' do
     redirect "/login"
   end
   
+  @version = v
   @page = "Collection Display" 
   @cid = params[:cid]
 
@@ -272,7 +282,7 @@ get '/file' do
   @id = params[:id]
   @fields = {"id" => "id", "filename" => "filename", "file type" => "fType", "size" => "fSize", "original filename" => "accessfilename", "last modification date" => "mDate", "language" => "language", "collection" => "cName", "series" => "series", "disk" => "did", "path" => "path"}
   @links = {"collection" => "cid", "series" => "series", "disk" => "did"}
-
+  @version = v
   response = solr.get 'select', :params => {
     :q=>"id:" << @id,
     :start=>0,
@@ -280,7 +290,7 @@ get '/file' do
   }
   
   EriLog.log_file(session['user'], @id) 
-  
+  @version = v
   @result = response
   @tm = TimeModule
   haml :file
@@ -292,7 +302,7 @@ get '/path' do
     redirect "/login"
   end
   
-  
+  @version = v
   @page = "Path Display" 
   @path = params["path"]
   haml :path
@@ -303,7 +313,7 @@ get '/about' do
   if(session['login'] != true)
     redirect "/login"
   end
-  
+  @version = v
   @page = "About"
   haml :about
 end 

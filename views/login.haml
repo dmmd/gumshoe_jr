@@ -7,15 +7,15 @@
 		%title ERI: #{@page}
 	%body
 		%div.container
-			Electronic Records Index
+			=@version
+			%div{:style => "background-color:#eee"}
+				%h1 #{@page}
 			%br
 			-if flash[:error]
 				%h1 Login Failed
 			-if flash[:notice]
 				%h1
 					=flash[:notice]
-			%a{:href => "/"} home 
-			%a{:href => "/about"} about
 			%br
 			%br
 			%form{:action => "/authenticate", :method => "post"}
