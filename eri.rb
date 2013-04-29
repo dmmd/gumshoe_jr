@@ -16,6 +16,11 @@ v = "Electronic Records Index [0.2.0a]"
 
 enable :sessions
 
+use Rack::Session::Cookie, :key => 'rack.session',
+                           :path => '/',
+                           :expire_after => 12000, # In seconds
+                           :secret => 'd32908e75160962571c7ef3ea6b4865755a2ae6b'
+                           
 configure do
   set :server, :trinidad
 end
