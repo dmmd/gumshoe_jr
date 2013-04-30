@@ -80,10 +80,10 @@
 							%td{:width => "25%"}
 								%a{:href => "/file?id=#{doc['id']}"}="#{doc['filename']}"
 							%td{:width => "25%"}
-								%a{:href => "/component?component=#{doc['series']}"}= "#{doc['parentseries']} > #{doc['series']}"
+								%a{:href => "/component?compId=#{doc['componentIdentifier']}"}= "#{doc['parentseries']} > #{doc['series']}"
 							%td{:width => "25%"}
 								="#{doc['fType']}"
 							%td{:width => "25%"}
-								="#{doc['mDate']}"
+								=@tm.convert_time doc['mDate']
 
 		%script{:type => "text/javascript", :src => "javascript/test.js"}

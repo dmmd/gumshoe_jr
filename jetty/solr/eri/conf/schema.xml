@@ -9,6 +9,7 @@
 	<field name="parent_directory" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
     <field name="accessname" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
     <field name="cName" type="text_general" indexed="true" stored="true" required="true" multiValued="false"/>
+    <field name="componentIdentifier" type="text_general" indexed="true" stored="true" required="true" multiValued="false"/>
     <field name="series" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
     <field name="parentseries" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
     <field name="cid" type="string" indexed="true" stored="true" required="false" multiValued="false"/>

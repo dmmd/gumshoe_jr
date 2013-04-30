@@ -79,7 +79,7 @@
 							%td{:width => "25%"}
 								="#{doc['fType']}"
 							%td{:width => "25%"}
-								="#{doc['mDate']}"
+								=@tm.convert_time(doc['mDate'])
 							%td{:width => "25%"}
 								%a{:href => "/disk?did=#{doc['did']}" }="#{doc['did']}"
 			%script{:type => "text/javascript", :src => "javascript/test.js"}

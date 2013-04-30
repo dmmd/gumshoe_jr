@@ -130,10 +130,11 @@ get '/component' do
     redirect "/login"
   end
   
-  @component = params[:component]
+  @compId = '"' << params[:compId] << '"'
   @page = "Component Display" 
+  
   response = solr.get 'select', :params => {
-    :q=>"series:" << @component,
+    :q=>"componentIdentifier:" << @compId,
     :start=>0,
     :rows=>2000
   }
@@ -142,6 +143,8 @@ get '/component' do
   @names = Hash.new
   @orgs = Hash.new
   @locs = Hash.new
+  @tm = TimeModule
+  
   response['response']['docs'].each do |doc|
   	
   	if doc['names'] then
@@ -245,6 +248,7 @@ get '/disk' do
   end
 
   @result = response
+  @tm = TimeModule
   haml :disk
 end
 
@@ -288,6 +292,7 @@ get '/file' do
   @fields = {"id" => "id", "filename" => "filename", "file type" => "fType", "size" => "fSize", "original filename" => "accessfilename", "last modification date" => "mDate", "language" => "language", "collection" => "cName", "series" => "series", "disk" => "did", "path" => "path"}
   @links = {"collection" => "cid", "series" => "series", "disk" => "did"}
   @version = v
+  @tm = TimeModule
   response = solr.get 'select', :params => {
     :q=>"id:" << @id,
     :start=>0,
