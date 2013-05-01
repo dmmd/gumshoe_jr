@@ -34,6 +34,10 @@
 					#{@result['response']['docs'][0]['cName']}
 				%br
 				archival file:  #{@result['response']['docs'][0]['parentseries']} > #{@result['response']['docs'][0]['series']}
+				%h3
+					description
+				%p
+					=@desc
 			%table{:style => "background-color:#ccc"}
 				%thead
 					%tr

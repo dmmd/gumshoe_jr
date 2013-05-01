@@ -2,11 +2,11 @@ require 'sinatra'
 require 'sinatra/config_file'
 require 'haml'
 require 'rsolr'
-require 'trinidad'
-require 'lib/time.rb'
-require 'lib/login.rb'
-require 'lib/log.rb'
-require 'lib/abstract.rb'
+require 'puma'
+require './lib/time.rb'
+require './lib/login.rb'
+require './lib/log.rb'
+require './lib/abstract.rb'
 require 'sinatra/flash'
 
 include TimeModule
@@ -24,7 +24,7 @@ use Rack::Session::Cookie, :key => 'rack.session',
                            :secret => 'd32908e75160962571c7ef3ea6b4865755a2ae6b'
                            
 configure do
-  set :server, :trinidad
+  set :server, :puma
 end
 
 config_file './conf/eri.yml'
@@ -186,6 +186,7 @@ get '/component' do
   	end
   end
   
+  puts @compId
   haml :component
 end
 
