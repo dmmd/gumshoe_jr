@@ -12,7 +12,7 @@ include TimeModule
 include EriAuth
 include EriLog
 
-v = "Electronic Records Index [0.2.1a]"
+v = "Electronic Records Index [0.2.0a]"
 
 enable :sessions
 
