@@ -13,6 +13,8 @@ GEM
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
       rb-kqueue (>= 0.2)
+    nokogiri (1.5.9)
+    nokogiri (1.5.9-java)
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
@@ -52,6 +54,7 @@ PLATFORMS
 
 DEPENDENCIES
   haml
+  nokogiri
   rerun
   rsolr
   sinatra

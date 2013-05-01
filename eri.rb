@@ -6,11 +6,13 @@ require 'trinidad'
 require 'lib/time.rb'
 require 'lib/login.rb'
 require 'lib/log.rb'
+require 'lib/abstract.rb'
 require 'sinatra/flash'
 
 include TimeModule
 include EriAuth
 include EriLog
+include Abstract
 
 v = "Electronic Records Index [0.2.1a]"
 
@@ -266,14 +268,15 @@ get '/collection' do
     :q=>"cid:" << @cid,
     :start=>0,
     :rows=>2000,
-    :fl => "series, parentseries, cName, did"
+    :fl => "series, parentseries, cName, did, componentIdentifier"
   }
 
   @components = SortedSet.new
   @media = SortedSet.new
   @cname
+  @abstract = Abstract.get_abstract(@cid)
   response['response']['docs'].each do |doc|
-    @components.add doc['series']
+    @components.add (doc['componentIdentifier'] << "|" << doc['series'])
     @media.add doc['did']
     @cname = doc['cName']
   end

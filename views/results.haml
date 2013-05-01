@@ -51,7 +51,8 @@
 								next twenty records =>
 			- @result['response']['docs'].each do |doc|
 				%h4
-					= count.to_s
+					= count.to_s << ". "
+					Filename: 
 					%a{:href => "/file?id=#{doc['id']}"}= doc['filename'] 
 					-count += 1
 
