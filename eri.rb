@@ -24,7 +24,7 @@ use Rack::Session::Cookie, :key => 'rack.session',
                            :secret => 'd32908e75160962571c7ef3ea6b4865755a2ae6b'
                            
 configure do
-  set :server, :puma
+  set :server, :thin
 end
 
 config_file './conf/eri.yml'
