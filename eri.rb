@@ -49,10 +49,6 @@ get '/' do
   }
   
   @cols = Hash.new
-  response['response']['docs'].each do |doc|
-    puts "hello"
-  end
-  
   haml :index
 end
 
@@ -73,9 +69,8 @@ end
 post '/authenticate' do
   login = params[:name]
   password = params[:password]
-  puts params
   result = EriAuth.test_login(login, password)
-  puts "RESULT " << result.to_s
+
   if result == true then 
     session["login"] = true
     session["user"] = login
@@ -184,8 +179,7 @@ get '/component' do
     	end
   	end
   end
-  
-  puts @compId
+
   haml :component
 end
 
