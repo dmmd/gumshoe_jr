@@ -7,8 +7,6 @@ module EriAuth
       salt = line.split("|")[1].strip
       test = line.split("|")[2].strip
       hash = Digest::SHA1.hexdigest salt + password
-      puts test
-      puts hash
       hash.eql? test
     else
       false
@@ -16,12 +14,15 @@ module EriAuth
   end
 
   def find_line(login)
-    File.open('access.txt').each do |line|
+    result = nil
+    f = File.open('access.txt')
+    f.each do |line|
       if login == line.split("|")[0]
-        return line
+        result = line
         break
       end
     end
-    return nil
+    f.close
+    return result
   end
 end
