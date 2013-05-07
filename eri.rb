@@ -79,7 +79,6 @@ post '/authenticate' do
   if result == true then 
     session["login"] = true
     session["user"] = login
-    puts "user logged in " +  session["user"]
     redirect "/"
   else
     flash[:error] = "Login failed"
