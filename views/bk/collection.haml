@@ -1,0 +1,52 @@
+%html  
+	%head
+		%link{:rel => "StyleSheet", :href => "css/blueprint/screen.css", :type => "text/css", :media => "screen"}
+		%link{:rel => "StyleSheet", :href => "css/ui-lightness/jquery-ui-1.10.2.custom.min.css", :type => "text/css", :media => "screen"}
+		%script{:src =>"javascript/jquery-1.9.1.min.js"}
+		%script{:src =>"javascript/jquery-ui-1.10.2.custom.min.js"}
+		%title ERI: #{@page}
+	%body
+		%div.container
+			=@version
+			%br
+			%a{:href => "/"} home 
+			%a{:href => "/about"} about
+			%a{:href => settings.homepage} contact
+			%a{:href => "/logout"} logout
+			%br
+			%br
+			%div{:style => "background-color:#ddd"}
+				search:
+				%form{:action => "/results", :method => "post"}
+					%input{:type => "text",  :name => "query", :size => 50, :style => "font-size: 18px;"}
+					%select{:name => "qType"}
+						%option{:value => "full text"} full text
+						%option{:value => "names"} names
+						%option{:value => "orgs"} organizations
+						%option{:value => "locs"} locations
+					%input{:type => "hidden", :name => "start", :value => 0}
+					%input{:type => "submit"}
+			%div{:style => "background-color:#eee"}
+				%h1 #{@page}		
+			%h2
+				#{@cid}: #{@cname}
+			%h3 Abstract
+			%p 
+				=@abstract
+			%table
+				%thead
+					%tr
+						%th{:style => "width:33%"} archival files
+						%th media items
+				%tbody
+					%tr
+						%td{:style => "vertical-align:top"}
+							- @components.each do |ser|
+								%a{:href => "/component?compId=#{ser.split('|')[0]}"}
+									=ser.split('|')[1]
+								%br
+						%td
+							- @media.each do |disk|
+								%a{:href => "/disk?did=#{disk}"}
+									#{disk}
+								%br	 

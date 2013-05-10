@@ -1,0 +1,30 @@
+%html  
+	%head
+		%link{:rel => "StyleSheet", :href => "css/blueprint/screen.css", :type => "text/css", :media => "screen"}
+		%link{:rel => "StyleSheet", :href => "css/ui-lightness/jquery-ui-1.10.2.custom.min.css", :type => "text/css", :media => "screen"}
+		%script{:src =>"javascript/jquery-1.9.1.min.js"}
+		%script{:src =>"javascript/jquery-ui-1.10.2.custom.min.js"}
+		%title ERI: #{@page}
+	%body
+		%div.container
+			=@version
+			%div{:style => "background-color:#eee"}
+				%h1 #{@page}
+			%br
+			-if flash[:error]
+				%h1 Login Failed
+			-if flash[:notice]
+				%h1
+					=flash[:notice]
+			%br
+			%br
+			%form{:action => "/authenticate", :method => "post"}
+				%lable Name:
+				%br
+				%input{:type => "text",  :name => "name", :size => 50, :style => "font-size: 18px;"}
+				%br
+				%lable Password:
+				%br
+				%input{:type => "password",  :name => "password", :size => 50, :style => "font-size: 18px;"}
+				%br
+				%input{:type => "submit"}

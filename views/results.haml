@@ -1,135 +1,186 @@
-%html  
+!!!
+%html{:lang => "en"}
 	%head
-		%link{:rel => "StyleSheet", :href => "css/blueprint/screen.css", :type => "text/css", :media => "screen"}
-		%link{:rel => "StyleSheet", :href => "css/ui-lightness/jquery-ui-1.10.2.custom.min.css", :type => "text/css", :media => "screen"}
-		%script{:src =>"javascript/jquery-1.9.1.min.js"}
-		%script{:src =>"javascript/jquery-ui-1.10.2.custom.min.js"}
-		%title ERI: #{@page}
+		%meta{:charset => "utf-8"}/
+		%title MSS ERI
+		%meta{:content => "", :name => "description"}/
+		%meta{:content => "", :name => "author"}/
+		/ Le HTML5 shim, for IE6-8 support of HTML elements
+		/[if lt IE 9]
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		/ Le styles
+		%link{:href => "/css/bootstrap.css", :rel => "stylesheet"}/
+		:css
+			body {
+				padding-top: 60px;
+				padding-bottom: 40px;
+			}
+			.sidebar-nav {
+				padding: 9px 0;
+			}
+				%link{:href => "/css/bootstrap-responsive.css", :rel => "stylesheet"}/
+		/ Le fav and touch icons
+		%link{:href => "images/favicon.ico", :rel => "shortcut icon"}/
+		%link{:href => "images/apple-touch-icon.png", :rel => "apple-touch-icon"}/
+		%link{:href => "images/apple-touch-icon-72x72.png", :rel => "apple-touch-icon", :sizes => "72x72"}/
+		%link{:href => "images/apple-touch-icon-114x114.png", :rel => "apple-touch-icon", :sizes => "114x114"}/
 	%body
-		%div.container
-			=@version
-			%br
-			%a{:href => "/"} home 
-			%a{:href => "/about"} about
-			%a{:href => settings.homepage} contact
-			%a{:href => "/logout"} logout
-			%br
-			%br
-			%div{:style => "background-color:#ddd"}
-				search:
-				%form{:action => "/results", :method => "post"}
-					%input{:type => "text",  :name => "query", :size => 50, :style => "font-size: 18px;"}
-					%select{:name => "qType"}
-						%option{:value => "full text"} full text
-						%option{:value => "names"} names
-						%option{:value => "orgs"} organizations
-						%option{:value => "locs"} locations
-					%input{:type => "hidden", :name => "start", :value => 0}
-					%input{:type => "submit"}
-			%div{:style => "background-color:#eee"}
-				%h1 #{@page}
-			
-			%h3
-				="Query: #{@q}"
-				%br
-				="Query Type: #{@qt}"
-			- count = @start + 1
-			%p
-				= "Number of records located: #{@result['response']['numFound']}"
-				%br
-				Displaying records #{@start + 1} through #{@start + @result['response']['docs'].size()}
-			%table
-				%tr
-					%td{:width => "33.3%", :style => "background-color:#ddd"}
-						-if @start >= 20 then
-							%a{:href => "/results?query=#{@q}&qType=#{@qt}&start=#{@start - 20}"}
-								<= previous twenty records
-					%td{:width => "33.3%", :style => "background-color:#ddd"}
-					%td{:width => "33.3%", :style => "background-color:#ddd;text-align:right"}
-						-if (@start + 20) < @result['response']['numFound']
-							%a{:href => "/results?query=#{@q}&qType=#{@qt}&start=#{@start + 20}"}
-								next twenty records =>
-			- @result['response']['docs'].each do |doc|
-				%h4
-					= count.to_s << ". "
-					Filename: 
-					%a{:href => "/file?id=#{doc['id']}"}= doc['filename'] 
-					-count += 1
+		.navbar.navbar-fixed-top
+			.navbar-inner
+				.container-fluid
+					%a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
+						%span.icon-bar
+						%span.icon-bar
+						%span.icon-bar
+					%a.brand{:href => "#"} Electronic Records Index
+					.nav-collapse
+						%ul.nav
+							%li.active
+								%a{:href => "/"} Home
+							%li
+								%a{:href => "/about"} About
+							%li
+								%a{:href => "/contact"} Contact
+						%p.navbar-text.pull-right
+							Logged in as
+							%a{:href => "#"}#{session['user']}
+							|
+							%a{:href => "/logout"} logout
+		.container-fluid
+			.row-fluid
+				.span1
+				.span10
+					.hero-unit
+						%h3
+							new search:
+							%form{:action => "/results", :method => "post"}
+								%input{:type => "text",  :name => "query", :size => 50, :style => "font-size: 18px;"}
+								%select{:name => "qType"}
+									%option{:value => "full text"} full text
+									%option{:value => "names"} names
+									%option{:value => "orgs"} organizations
+									%option{:value => "locs"} locations
+								%input{:type => "hidden", :name => "start", :value => 0}
+								%input{:type => "submit"}
+						%h1
+							#{@page}
+						
+					%h3
+						="Query: #{@q}"
+						%br
+						="Query Type: #{@qt}"
+					- count = @start + 1
+					%p
+						= "Number of records located: #{@result['response']['numFound']}"
+						%br
+						Displaying records #{@start + 1} through #{@start + @result['response']['docs'].size()}
+					%table
+						%tr
+							%td{:width => "33.3%", :style => "background-color:#ddd"}
+								-if @start >= 20 then
+									%a{:href => "/results?query=#{@q}&qType=#{@qt}&start=#{@start - 20}"}
+										<= previous twenty records
+							%td{:width => "33.3%", :style => "background-color:#ddd"}
+							%td{:width => "33.3%", :style => "background-color:#ddd;text-align:right"}
+								-if (@start + 20) < @result['response']['numFound']
+									%a{:href => "/results?query=#{@q}&qType=#{@qt}&start=#{@start + 20}"}
+										next twenty records =>
+					- @result['response']['docs'].each do |doc|
+						%h4
+							= count.to_s << ". "
+							Filename: 
+							%a{:href => "/file?id=#{doc['id']}"}= doc['filename'] 
+							-count += 1
 
-				%table
-					%thead
-						%tr
-							%th collection info
-							%th file info
-							%th names
-							%th organizations
-							%th locations
-					%tbody
-						%tr
-							%td{:width => "20%", :style => "vertical-align:top"}
-								%b
-									name:
-								%br
-								%a{:href => "/collection?cid=#{doc['cid']}"}
-									=doc['cName']
-								%br
-								%b	
-									component:
-								%br
-								=doc['parentseries'] << " > "
-								%a{:href => "/component?compId=#{doc['componentIdentifier']}"}
-									=doc['series']	
-								%br
-								%b
-									disk id:
-								%br
-								%a{:href => "/disk?did=#{doc['did']}"}
-									=doc['did']
-							%td{:width => "20%", :style => "vertical-align:top"}
-								-if !doc['accessfilename'] == nil then
-									%b 
-										original filename:
-									%br
-								%b
-									file type:
-								%br
-								=doc['fType']
-								%br
-								%b
-									file size:
-								%br
-								=@tm.convert_bytes doc['fSize']
-								%br
-								%b
-									last modification date:
-								%br
-								=@tm.convert_time doc['mDate']
-								%br
-								%b
-									language:
-								%br
-								=doc['language']
-							-ents = {"names" => "names", "orgs" => "organizations", "locs" => "locations"}
-							-ents.each do |ent|
-								%td{:width => "20%", :style => "vertical-align:top"}
-									-if doc[ent[0]] then
-										-set = Array.new doc[ent[0]]
-										-(0..10).each do |i|
-											%a{:href => "/results?qType=#{ent[0]}&query=%22#{set[i]}%22"}
-												=set[i]
+						%table
+							%thead
+								%tr
+									%th collection info
+									%th file info
+									%th names
+									%th organizations
+									%th locations
+							%tbody
+								%tr
+									%td{:width => "20%", :style => "vertical-align:top"}
+										%b
+											name:
+										%br
+										%a{:href => "/collection?cid=#{doc['cid']}"}
+											=doc['cName']
+										%br
+										%b	
+											component:
+										%br
+										=doc['parentseries'] << " > "
+										%a{:href => "/component?compId=#{doc['componentIdentifier']}"}
+											=doc['series']	
+										%br
+										%b
+											disk id:
+										%br
+										%a{:href => "/disk?did=#{doc['did']}"}
+											=doc['did']
+									%td{:width => "20%", :style => "vertical-align:top"}
+										-if !doc['accessfilename'] == nil then
+											%b 
+												original filename:
 											%br
-									-if doc[ent[0]] && doc[ent[0]].size > 10 then
-										%a{:href => "/file?id=#{doc['id']}"}
-											%div{:style => "color:#FF0000"}
-												See all entities
-			%table
-				%tr
-					%td{:width => "33.3%", :style => "background-color:#ddd"}
-						-if @start >= 20 then
-							%a{:href => "/results?query=#{@q}&qType=#{@qt}&start=#{@start - 20}"}
-								<= previous twenty records
-					%td{:width => "33.3%", :style => "background-color:#ddd"}
-					%td{:width => "33.3%", :style => "background-color:#ddd;text-align:right"}
-						-if (@start + 20) < @result['response']['numFound']
-							%a{:href => "/results?query=#{@q}&qType=#{@qt}&start=#{@start + 20}"}
-								next twenty records =>
+										%b
+											file type:
+										%br
+										=doc['fType']
+										%br
+										%b
+											file size:
+										%br
+										=@tm.convert_bytes doc['fSize']
+										%br
+										%b
+											last modification date:
+										%br
+										=@tm.convert_time doc['mDate']
+										%br
+										%b
+											language:
+										%br
+										=doc['language']
+									-ents = {"names" => "names", "orgs" => "organizations", "locs" => "locations"}
+									-ents.each do |ent|
+										%td{:width => "20%", :style => "vertical-align:top"}
+											-if doc[ent[0]] then
+												-set = Array.new doc[ent[0]]
+												-(0..10).each do |i|
+													%a{:href => "/results?qType=#{ent[0]}&query=%22#{set[i]}%22"}
+														=set[i]
+													%br
+											-if doc[ent[0]] && doc[ent[0]].size > 10 then
+												%a{:href => "/file?id=#{doc['id']}"}
+													%div{:style => "color:#FF0000"}
+														See all entities
+					%table
+						%tr
+							%td{:width => "33.3%", :style => "background-color:#ddd"}
+								-if @start >= 20 then
+									%a{:href => "/results?query=#{@q}&qType=#{@qt}&start=#{@start - 20}"}
+										<= previous twenty records
+							%td{:width => "33.3%", :style => "background-color:#ddd"}
+							%td{:width => "33.3%", :style => "background-color:#ddd;text-align:right"}
+								-if (@start + 20) < @result['response']['numFound']
+									%a{:href => "/results?query=#{@q}&qType=#{@qt}&start=#{@start + 20}"}
+										next twenty records =>
+
+	%script{:src => "/javascript/jquery.js"}
+	%script{:src => "/javascript/bootstrap-transition.js"}
+	%script{:src => "/javascript/bootstrap-alert.js"}
+	%script{:src => "/javascript/bootstrap-modal.js"}
+	%script{:src => "/javascript/bootstrap-dropdown.js"}
+	%script{:src => "/javascript/bootstrap-scrollspy.js"}
+	%script{:src => "/javascript/bootstrap-tab.js"}
+	%script{:src => "/javascript/bootstrap-tooltip.js"}
+	%script{:src => "/javascript/bootstrap-popover.js"}
+	%script{:src => "/javascript/bootstrap-button.js"}
+	%script{:src => "/javascript/bootstrap-collapse.js"}
+	%script{:src => "/javascript/bootstrap-carousel.js"}
+	%script{:src => "/javascript/bootstrap-typeahead.js"}
+	%script{:src =>"javascript/jquery-ui-1.10.2.custom.min.js"}	%script{:src => "/js/jquery.js"}
