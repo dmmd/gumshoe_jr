@@ -1,0 +1,99 @@
+%html  
+	%head
+		%link{:rel => "StyleSheet", :href => "css/blueprint/screen.css", :type => "text/css", :media => "screen"}
+		%link{:rel => "StyleSheet", :href => "css/ui-lightness/jquery-ui-1.10.2.custom.min.css", :type => "text/css", :media => "screen"}
+		%script{:src =>"javascript/jquery-1.9.1.min.js"}
+		%script{:src =>"javascript/jquery-ui-1.10.2.custom.min.js"}
+		%title ERI: #{@page}
+	%body
+		%div.container
+			=@version
+			%br
+			%a{:href => "/"} home 
+			%a{:href => "/about"} about
+			%a{:href => settings.homepage} contact
+			%a{:href => "/logout"} logout
+			%br
+			%br
+			%div{:style => "background-color:#ddd"}
+				search:
+				%form{:action => "/results", :method => "post"}
+					%input{:type => "text",  :name => "query", :size => 50, :style => "font-size: 18px;"}
+					%select{:name => "qType"}
+						%option{:value => "full text"} full text
+						%option{:value => "names"} names
+						%option{:value => "orgs"} organizations
+						%option{:value => "locs"} locations
+					%input{:type => "hidden", :name => "start", :value => 0}
+					%input{:type => "submit"}
+			%div{:style => "background-color:#eee"}
+				%h1 #{@page}
+			%hr
+			- doc = @result['response']['docs'][0]
+			%h3
+				=doc['filename']
+			%h4 Metadata
+			%table
+				%tbody
+					%tr
+						%td{:width => "15%"}
+							collection name
+						%td
+							%a{:href => "/collection?cid=#{doc['cid']}"}
+								=doc['cName']
+					%tr
+						%td
+							component
+						%td
+							=doc['parentseries']  << " > "
+							%a{:href => "/component?compId=#{doc['componentIdentifier']}"}
+								=doc['series']
+					%tr
+						%td
+							media id
+						%td
+							%a{:href => "/disk?did=#{doc['did']}"}
+								=doc['did']
+					%tr
+						%td
+							path
+						%td
+							=doc['path']
+					%tr
+						%td
+							file type
+						%td
+							=doc['fType']
+					%tr
+						%td
+							file size
+						%td
+							=@tm.convert_bytes doc['fSize']
+					%tr
+						%td
+							language
+						%td
+							=doc['language']
+					%tr
+						%td
+							last modification date
+						%td
+							=@tm.convert_time doc['mDate']
+			%h4 Named Entities
+			-ents = {"names" => "names", "orgs" => "organizations", "locs" => "locations"}
+			-ents.each do |ent| 
+				-if doc[ent[0]] then
+					%b
+						=ent[1] << ":"
+					%br
+					-set = SortedSet.new doc[ent[0]]
+					-count = 0
+					-set.each do |member|
+						%a{:href => "/results?qType=#{ent[0]}&query=%22#{member}%22"}
+							- if count < set.size - 1
+								= "#{member},  "
+							- else
+								= "#{member}"
+						- count += 1	
+					%br
+					%br

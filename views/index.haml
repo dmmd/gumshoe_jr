@@ -49,12 +49,18 @@
 		.container-fluid
 			.row-fluid
 				.span3
-					.well.sidebar-nav
-						%ul.nav.nav-list
-							%li.nav-header Collections
-							%li The Morris Dicsktein papers
-							%li The Septemper 11th Fund records
-							%li The Gay Men's Health Crisis records
+					.sidebar
+						Collections
+						%ul{:class => "nav nav-tabs nav-stacked collection-info-sidenav affix"}
+							%li 
+								%a
+									The Morris Dicsktein papers
+							%li 
+								%a
+									The Septemper 11th Fund records
+							%li
+								%a
+									The Gay Men's Health Crisis records
 				.span9
 					.hero-unit
 						%h1

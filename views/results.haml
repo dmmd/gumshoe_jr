@@ -74,17 +74,19 @@
 						= "Number of records located: #{@result['response']['numFound']}"
 						%br
 						Displaying records #{@start + 1} through #{@start + @result['response']['docs'].size()}
-					%table
+					%table{:class => "table", :width => "100%"}
 						%tr
 							%td{:width => "33.3%", :style => "background-color:#ddd"}
 								-if @start >= 20 then
 									%a{:href => "/results?query=#{@q}&qType=#{@qt}&start=#{@start - 20}"}
-										<= previous twenty records
+										%div.navbar-text.pull-left
+											<= previous twenty records
 							%td{:width => "33.3%", :style => "background-color:#ddd"}
 							%td{:width => "33.3%", :style => "background-color:#ddd;text-align:right"}
 								-if (@start + 20) < @result['response']['numFound']
 									%a{:href => "/results?query=#{@q}&qType=#{@qt}&start=#{@start + 20}"}
-										next twenty records =>
+										%div.navbar-text.pull-right
+											next twenty records =>
 					- @result['response']['docs'].each do |doc|
 						%h4
 							= count.to_s << ". "
@@ -92,7 +94,7 @@
 							%a{:href => "/file?id=#{doc['id']}"}= doc['filename'] 
 							-count += 1
 
-						%table
+						%table{:class => "table"}
 							%thead
 								%tr
 									%th collection info
@@ -158,17 +160,19 @@
 												%a{:href => "/file?id=#{doc['id']}"}
 													%div{:style => "color:#FF0000"}
 														See all entities
-					%table
+					%table{:class => "table", :width => "100%"}
 						%tr
 							%td{:width => "33.3%", :style => "background-color:#ddd"}
 								-if @start >= 20 then
 									%a{:href => "/results?query=#{@q}&qType=#{@qt}&start=#{@start - 20}"}
-										<= previous twenty records
+										%div.navbar-text.pull-left
+											<= previous twenty records
 							%td{:width => "33.3%", :style => "background-color:#ddd"}
 							%td{:width => "33.3%", :style => "background-color:#ddd;text-align:right"}
 								-if (@start + 20) < @result['response']['numFound']
 									%a{:href => "/results?query=#{@q}&qType=#{@qt}&start=#{@start + 20}"}
-										next twenty records =>
+										%div.navbar-text.pull-right
+											next twenty records =>
 
 	%script{:src => "/javascript/jquery.js"}
 	%script{:src => "/javascript/bootstrap-transition.js"}
