@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rsolr'
+gem 'rsolr-ext'
 gem 'haml'
 gem 'sinatra'
 gem 'sinatra-contrib'

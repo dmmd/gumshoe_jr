@@ -1,8 +1,4 @@
-module TimeModule
-  def get_name
-    "Donald Mennerich 2"
-  end
-  
+module TimeModule  
   def convert_time(timeIn)
     if timeIn == nil
       nil

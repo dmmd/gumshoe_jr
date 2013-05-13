@@ -7,15 +7,17 @@ require './lib/time.rb'
 require './lib/login.rb'
 require './lib/log.rb'
 require './lib/abstract.rb'
+require './lib/facet.rb'
 require 'sinatra/flash'
 
 include TimeModule
 include EriAuth
 include EriLog
 include Abstract
+include Facet
 
 v = "Electronic Records Index [0.2.1a]"
-
+title = "Manuscripts and Archvies Division: Electronic Records Index"
 enable :sessions
 
 use Rack::Session::Cookie, :key => 'rack.session',
@@ -42,18 +44,15 @@ get '/' do
   
   @version = v
   @page = "Electronic Records Index" 
-  response = solr.get 'select', :params => {
-    :q=>params["id:*"],
-    :start=>0,
-    :rows=>2000
-  }
+  @cols = Facet.get_collection_hash()
   
-  @cols = Hash.new
   haml :index
 end
 
+
 get "/login" do
   @version = v
+  @title = title
   @page = "Login to ERI"
   haml :login
 end
@@ -199,7 +198,6 @@ get '/disk' do
     :start=>0,
     :rows=>2000
   }
-  
   
   @names = Hash.new
   @orgs = Hash.new

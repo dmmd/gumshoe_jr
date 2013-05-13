@@ -52,15 +52,10 @@
 					.sidebar
 						Collections
 						%ul{:class => "nav nav-tabs nav-stacked collection-info-sidenav affix"}
-							%li 
-								%a
-									The Morris Dicsktein papers
-							%li 
-								%a
-									The Septemper 11th Fund records
-							%li
-								%a
-									The Gay Men's Health Crisis records
+							-@cols.each do |col|
+								%li 
+									%a{:href => "/collection?cid=#{col[0]}"}
+										=col[1]
 				.span9
 					.hero-unit
 						%h1

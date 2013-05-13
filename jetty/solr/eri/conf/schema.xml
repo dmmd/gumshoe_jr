@@ -2,6 +2,8 @@
 <schema name="example" version="1.5">
   <fields>
     <field name="id" type="text_general" indexed="true" stored="true" required="true" multiValued="false"/>
+	<field name="md5" type="string" indexed="true" stored="true" required="true" multiValued="false"/>
+	<field name="tikamime" type="string" indexed="true" stored="true" required="true" multiValued="false"/>
     <field name="filename" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
 	<field name="unit_id" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>
 	<field name="unit_title" type="text_general" indexed="true" stored="true" required="false" multiValued="false"/>

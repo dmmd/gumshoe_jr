@@ -1,7 +1,7 @@
-require 'rsolr'
+require 'rsolr-ext'
 require 'yaml'
-require 'java'
 require 'rake'
+
 settings = YAML.load(File.open("conf/eri.yml"))
 
 namespace :eri do
@@ -16,6 +16,7 @@ namespace :eri do
           puts "error: " << response
         end
     end
+  
     desc "Delete all records from index"
     task :nuke do
       response = solr.delete_by_query '*:*'
@@ -27,7 +28,9 @@ namespace :eri do
           puts "error: " << response
         end
     end
+  
     desc "Returns the count of records in the index"
+    
     task :get_count do
       response = solr.get('select', :params => {:q=>'id:*'})
         if response['responseHeader']['status'] == 0 then
@@ -36,14 +39,32 @@ namespace :eri do
           puts "error: " << response
         end
     end
-  end
-  namespace :solrizer do
-    desc "Add files to index"
-    task :add_single do
-      Dir["#{settings['classpath']}\*.jar"].each { |jar| require jar }
-      file = ENV['FILE']
-      index = ENV['INDEX']
-      org.nypl.mss.erecs.JRubyInterface.new(file, index, settings['solr'])  
-    end
+  
+    desc "Delete all records in the index for a collection"
+    task :del_col do
+      col = "cid: " + ENV['COL']
+      
+      solr_params =  {
+        :queries => "cid:*",
+        :facets =>{:fields => ["cid"]}
+      }
+      
+      response = solr.find(solr_params, :method => :post)
+      cArray = response['facet_counts']['facet_fields']['cid']
+      hash = Hash[cArray.map.with_index.to_a]
+      index = hash[ENV['COL']].to_i + 1
+      puts "deleting " + cArray[index].to_s + " records from index"
+      puts "proceed - 'yes'"
+      r = STDIN.gets.chomp
+      
+      if r == "yes" then
+        solr.delete_by_query col
+        solr.commit
+        solr.optimize
+        puts "All records from " + ENV['COL'] + "deleted from index"
+      else
+        puts "Cancelling deletion"
+      end
+    end 
   end
 end
