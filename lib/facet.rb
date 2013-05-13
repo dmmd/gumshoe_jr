@@ -1,6 +1,5 @@
 module Facet
   require 'rsolr-ext'
-  require 'Set'
   
   
   @solr = RSolr.connect :url => "http://localhost:8983/solr"
