@@ -64,16 +64,32 @@
 								%input{:type => "submit"}
 						%h1
 							#{@page}
-						
-					%h3
-						="Query: #{@q}"
-						%br
-						="Query Type: #{@qt}"
-					- count = @start + 1
-					%p
-						= "Number of records located: #{@result['response']['numFound']}"
-						%br
-						Displaying records #{@start + 1} through #{@start + @result['response']['docs'].size()}
+					- count = @start + 1	
+					%table.table{:width => "100%"}
+						%tr
+							%td{:width => "50%"}
+								%p
+									="Query: #{@q}"
+									%br
+									="Query Type: #{@qt}"
+									%br
+									= "Number of records located: #{@result['response']['numFound']}"
+									%br
+									Displaying records #{@start + 1} through #{@start + @result['response']['docs'].size()}
+							%td
+								%ul{:class => "nav nav-tabs nav-stacked collection-info-sidenav"}
+									-if session.has_key? "limit" then
+										limited to 
+										%b #{@result['response']['docs'][0]['cName']}
+										%a{:href => "/remove?query=#{@q}&qType=#{@qt}&cid=#{session[:limit]}"}
+											remove
+									-else
+										%h3
+											Restrict to collection
+										-@facets.each do |col|
+											%li 
+												%a{:href => "/limit?query=#{@q}&qType=#{@qt}&cid=#{col[0]}&cName=#{col[1]}"}
+													=col[1]
 					%table{:class => "table", :width => "100%"}
 						%tr
 							%td{:width => "33.3%", :style => "background-color:#ddd"}

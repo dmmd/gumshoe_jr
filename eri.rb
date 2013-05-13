@@ -1,7 +1,7 @@
 require 'sinatra'
 require 'sinatra/config_file'
 require 'haml'
-require 'rsolr'
+require 'rsolr-ext'
 require 'thin'
 require './lib/time.rb'
 require './lib/login.rb'
@@ -96,20 +96,32 @@ get_or_post '/results' do
   EriLog.log_search(session['user'], @qt, @q) 
   
   if @qt == "full text" then
-    @query = @q
+    @query = "text:" << @q
   else
     @query = ""
     @query << @qt
     @query << ":" << @q
   end
+  
+  if(session["limit"] != nil) then
+    response = solr.get 'select', :params => {
+      :q => @query,
+      :fq => "cid:" << session['limit'],
+      :start=> @start,
+      :rows=>20
+    }
+  else
+    response = solr.get 'select', :params => {
+      :q => @query,
+      :start=> @start,
+      :rows=>20
+    }
+  end
 
-  response = solr.get 'select', :params => {
-    :q => @query,
-    :start=> @start,
-    :rows=>20
-  }
+  
   
   @result = response
+  @facets = Facet.get_collection_hash()
   @fields = {"collection" => "cName", "component" => "series", "disk id" => "did", "file type" => "fType", "size" => "fSize", 
     "original filename" => "accessfilename", "mod date" => "mDate", "language" => "language"} 
   
@@ -322,3 +334,17 @@ get '/about' do
   @page = "About"
   haml :about
 end 
+
+get '/limit' do
+  session["limit"] = params[:cid]
+  redirect "/results?query=#{params[:query]}&qType=#{params[:qType]}"
+end
+
+get '/session' do
+  session
+end
+
+get '/remove' do
+  session["limit"] = nil
+  redirect "/results?query=#{params[:query]}&qType=#{params[:qType]}"
+end
