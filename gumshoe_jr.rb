@@ -69,14 +69,18 @@ post '/authenticate' do
   login = params[:name]
   password = params[:password]
   result = EriAuth.test_login(login, password)
-
+  
   if result == true then 
     session["login"] = true
     session["user"] = login
+    if EriAuth.test_admin(login, password) then
+      session['admin'] = true
+      flash[:notice] = "logged in as admin"
+    end
     redirect "/"
   else
     flash[:error] = "Login failed"
-    redirect "/login"
+    redirect "/"
   end
 end
 
@@ -347,4 +351,14 @@ end
 get '/remove' do
   session["limit"] = nil
   redirect "/results?query=#{params[:query]}&qType=#{params[:qType]}"
+end
+
+get '/admin' do
+  if session['admin'] == false
+    flash[:error] = "You do not have permission to access admin pages"
+    redirect "/"
+  end
+  @version = v
+  @page = "Administration"
+  haml :admin
 end

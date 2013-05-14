@@ -12,6 +12,16 @@ module EriAuth
       false
     end
   end
+  
+  def test_admin(login, password)
+    line = find_line(login)
+    puts "admin: " + line.split("|")[3]
+    if line.split("|")[3].strip == "admin" then
+      true
+    else
+      false
+    end 
+  end
 
   def find_line(login)
     result = nil

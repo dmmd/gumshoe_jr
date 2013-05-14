@@ -1,56 +1,92 @@
-%html  
+!!!
+%html{:lang => "en"}
 	%head
-		%link{:rel => "StyleSheet", :href => "css/blueprint/screen.css", :type => "text/css", :media => "screen"}
-		%link{:rel => "StyleSheet", :href => "css/ui-lightness/jquery-ui-1.10.2.custom.min.css", :type => "text/css", :media => "screen"}
-		%script{:src =>"javascript/jquery-1.9.1.min.js"}
-		%script{:src =>"javascript/jquery-ui-1.10.2.custom.min.js"}
-		%title ERI: #{@page}
+		%meta{:charset => "utf-8"}/
+		%title #{@title}
+		%meta{:content => "", :name => "description"}/
+		%meta{:content => "", :name => "author"}/
+		/ Le HTML5 shim, for IE6-8 support of HTML elements
+		/[if lt IE 9]
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		/ Le styles
+		%link{:href => "/css/bootstrap.css", :rel => "stylesheet"}/
+		:css
+			body {
+				padding-top: 60px;
+				padding-bottom: 40px;
+			}
+			.sidebar-nav {
+				padding: 9px 0;
+			}
+				%link{:href => "/css/bootstrap-responsive.css", :rel => "stylesheet"}/
+		/ Le fav and touch icons
+		%link{:href => "images/favicon.ico", :rel => "shortcut icon"}/
+		%link{:href => "images/apple-touch-icon.png", :rel => "apple-touch-icon"}/
+		%link{:href => "images/apple-touch-icon-72x72.png", :rel => "apple-touch-icon", :sizes => "72x72"}/
+		%link{:href => "images/apple-touch-icon-114x114.png", :rel => "apple-touch-icon", :sizes => "114x114"}/
 	%body
-		%div.container
-			=@version
-			%br
-			%a{:href => "/"} home 
-			%a{:href => "/about"} about
-			%a{:href => settings.homepage} contact
-			%a{:href => "/logout"} logout
-			%br
-			%br
-			%div{:style => "background-color:#ddd"}
-				search:
-				%form{:action => "/results", :method => "post"}
-					%input{:type => "text",  :name => "query", :size => 50, :style => "font-size: 18px;"}
-					%select{:name => "qType"}
-						%option{:value => "full text"} full text
-						%option{:value => "names"} names
-						%option{:value => "orgs"} organizations
-						%option{:value => "locs"} locations
-					%input{:type => "hidden", :name => "start", :value => 0}
-					%input{:type => "submit"}
-			%div{:style => "background-color:#eee"}
-				%h1 #{@page}
-			%br
-			%br
-			%p
-				%i
-					Electronic Records Index 
-				is a full-text index of text-based digital documents from collections held in 
-				%a{:href => "#{settings.homepage}"}
-					#{settings.department} 
-				of #{settings.organization}.
-				These text-based documents have been indexed by means of migration to Microsoft's .docx format and file parsing with 
-				%a{:href => "http://apache.org/"}
-					the Apache Software Foundation's 
-				%a{:href => "http://tika.apache.org/"}
-					Tika Library, 
-				with Named Entity Extraction performed by
-				%a{:href => "http://apache.org/"} 
-					the Apache Software Foundation's 
-				%a{:href => "http://opennlp.apache.org"}
-					Open NLP Library
-				%br
-				%br
-				All record's in the index can be consulted in #{settings.department}'s reading room with advanced notification. For more information, 
-				%a{:href => "#{settings.homepage}"}
-					contact #{settings.department} 
-				
-					
+		.navbar.navbar-fixed-top
+			.navbar-inner
+				.container-fluid
+					%a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
+						%span.icon-bar
+						%span.icon-bar
+						%span.icon-bar
+					%a.brand{:href => "#"} Electronic Records Index
+					.nav-collapse
+						%ul.nav
+							%li.active
+								%a{:href => "/"} Home
+							%li
+								%a{:href => "/about"} About
+							%li
+								%a{:href => "#{settings.contact_form}", :target => "_blank"} Contact
+						%p.navbar-text.pull-right
+							Logged in as
+							%a{:href => "#"}#{session['user']}
+							|
+							%a{:href => "/logout"} logout
+		.container-fluid
+			.row-fluid
+				.span1
+				.span10
+					.hero-unit
+						%h1
+							#{@page}
+					%p
+						%i
+							Electronic Records Index 
+						is a full-text index of text-based digital documents from collections held in 
+						%a{:href => "#{settings.homepage}"}
+							#{settings.department} 
+						of #{settings.organization}.
+						These text-based documents have been indexed by means of migration to Microsoft's .docx format and file parsing with 
+						%a{:href => "http://apache.org/"}
+							the Apache Software Foundation's 
+						%a{:href => "http://tika.apache.org/"}
+							%i Tika Library
+						, with Named Entity Extraction performed by
+						%a{:href => "http://apache.org/"} 
+							the Apache Software Foundation's 
+						%a{:href => "http://opennlp.apache.org"}
+							%i Open NLP Library.
+						
+						%br
+						%br
+						All record's in the index can be consulted in #{settings.department}'s reading room with advanced notification. For more information, 
+						%a{:href => "#{settings.homepage}"}
+							contact #{settings.department}
+	%script{:src => "/javascript/jquery.js"}
+	%script{:src => "/javascript/bootstrap-transition.js"}
+	%script{:src => "/javascript/bootstrap-alert.js"}
+	%script{:src => "/javascript/bootstrap-modal.js"}
+	%script{:src => "/javascript/bootstrap-dropdown.js"}
+	%script{:src => "/javascript/bootstrap-scrollspy.js"}
+	%script{:src => "/javascript/bootstrap-tab.js"}
+	%script{:src => "/javascript/bootstrap-tooltip.js"}
+	%script{:src => "/javascript/bootstrap-popover.js"}
+	%script{:src => "/javascript/bootstrap-button.js"}
+	%script{:src => "/javascript/bootstrap-collapse.js"}
+	%script{:src => "/javascript/bootstrap-carousel.js"}
+	%script{:src => "/javascript/bootstrap-typeahead.js"}
+	%script{:src =>"/javascript/jquery-ui-1.10.2.custom.min.js"}

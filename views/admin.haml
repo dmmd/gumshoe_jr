@@ -48,36 +48,27 @@
 							%a{:href => "/logout"} logout
 		.container-fluid
 			.row-fluid
-				.span3
-					.sidebar
-						Collections
-						%ul{:class => "nav nav-tabs nav-stacked collection-info-sidenav affix"}
-							-@cols.each do |col|
-								%li 
-									%a{:href => "/collection?cid=#{col[0]}"}
-										=col[1]
-				.span8
-					.hero-unit
-						-if flash[:error]
-							%h1{:class => "alert"}
-								=flash[:error]
-						-if flash[:notice]
-							%h1{:class => "alert"}
-								=flash[:notice]
-						%h1
-							#{@page}
-						%h3
-							search:
-							%form{:action => "/results", :method => "post"}
-								%input{:type => "text",  :name => "query", :size => 50, :style => "font-size: 18px;"}
-								%select{:name => "qType"}
-									%option{:value => "full text"} full text
-									%option{:value => "names"} names
-									%option{:value => "orgs"} organizations
-									%option{:value => "locs"} locations
-								%input{:type => "hidden", :name => "start", :value => 0}
-								%input{:type => "submit"}
 				.span1
+				.span10
+					=session
+					-if flash[:error]
+						.hero-unit
+							%h1 :( #{flash[:error]}
+					-else
+						.hero-unit
+							%h1
+								#{@page}
+						%div
+							%h2
+								Create a new user
+							%form{:action => "/new_user", :method => "post"}
+								%input{:type => "text",  :name => "query", :size => 50, :style => "font-size: 18px;"}
+								%input{:type => "password",  :name => "pass1", :size => 50, :style => "font-size: 18px;"}
+								%input{:type => "password",  :name => "pass2", :size => 50, :style => "font-size: 18px;"}
+								%select{:name => "qType"}
+									%option{:value => "user"} user
+									%option{:value => "admin"} admin
+								%input{:type => "submit"}
 	%script{:src => "/javascript/jquery.js"}
 	%script{:src => "/javascript/bootstrap-transition.js"}
 	%script{:src => "/javascript/bootstrap-alert.js"}

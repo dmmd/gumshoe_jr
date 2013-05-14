@@ -40,10 +40,12 @@
 							%li
 								%a{:href => "/about"} About
 							%li
-								%a{:href => "/contact"} Contact
+								%a{:href => "#{settings.contact_form}", :target => "_blank"} Contact
 						%p.navbar-text.pull-right
 							Logged in as
-							%a{:href => "#"} username
+							%a{:href => "#"}#{session['user']}
+							|
+							%a{:href => "/logout"} logout
 		.container-fluid
 			.row-fluid
 				.span1
@@ -51,23 +53,25 @@
 					.hero-unit
 						%h1
 							#{@page}
+						
 						-if flash[:error]
-							%h1{:class => "alert"} Login Failed
+							.alert
+								%h1 
+									=flash[:error]
 						-if flash[:notice]
-							%h1
-								=flash[:notice]
+							.alert
+								%h1 
+									=flash[:notice]
+					%form{:action => "/authenticate", :method => "post"}
+						%lable Name:
 						%br
+						%input{:type => "text",  :name => "name", :size => 50, :style => "font-size: 18px;"}
 						%br
-						%form{:action => "/authenticate", :method => "post"}
-							%lable Name:
-							%br
-							%input{:type => "text",  :name => "name", :size => 50, :style => "font-size: 18px;"}
-							%br
-							%lable Password:
-							%br
-							%input{:type => "password",  :name => "password", :size => 50, :style => "font-size: 18px;"}
-							%br
-							%input{:type => "submit"}
+						%lable Password:
+						%br
+						%input{:type => "password",  :name => "password", :size => 50, :style => "font-size: 18px;"}
+						%br
+						%input{:type => "submit"}
 	%script{:src => "/javascript/jquery.js"}
 	%script{:src => "/javascript/bootstrap-transition.js"}
 	%script{:src => "/javascript/bootstrap-alert.js"}

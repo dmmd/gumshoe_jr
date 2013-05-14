@@ -40,7 +40,7 @@
 							%li
 								%a{:href => "/about"}About
 							%li
-								%a{:href => "/contact"}Contact
+								%a{:href => "#{settings.contact_form}", :target => "_blank"} Contact
 						%p.navbar-text.pull-right
 							Logged in as
 							%a{:href => "#"}#{session['user']}
