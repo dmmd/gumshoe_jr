@@ -39,7 +39,24 @@ namespace :eri do
           puts "error: " << response
         end
     end
-  
+    
+    desc "Delete a single record in the index on id"
+    task :del_record do
+      solr.delete_by_query("id:" + ENV['ID'])
+      solr.commit
+      solr.optimize
+    end
+    
+    desc "Run a query"
+    task :query do
+      response = solr.get('select',
+        :params => {:q => ENV['Q']}
+      )
+      puts response
+    end
+      
+      
+    
     desc "Delete all records in the index for a collection"
     task :del_col do
       col = "cid: " + ENV['COL']
