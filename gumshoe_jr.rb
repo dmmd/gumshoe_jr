@@ -17,7 +17,7 @@ include Abstract
 include Facet
 
 v = "Electronic Records Index [0.3.0a]"
-title = "Manuscripts and Archvies Division: Electronic Records Index"
+title = "Manuscripts and Archives Division: Electronic Records Index"
 enable :sessions
 
 use Rack::Session::Cookie, :key => 'rack.session',
@@ -73,10 +73,6 @@ post '/authenticate' do
   if result == true then 
     session["login"] = true
     session["user"] = login
-    if EriAuth.test_admin(login, password) then
-      session['admin'] = true
-      flash[:notice] = "logged in as admin"
-    end
     redirect "/"
   else
     flash[:error] = "Login failed"
