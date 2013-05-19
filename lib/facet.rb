@@ -6,16 +6,16 @@ module Facet
   
   def get_collection_nums()
     solr_params =  {
-      :queries => "cid:*",
-      :fl => "cid",
-      :facets => {:fields => ["cid"]}
+      :queries => "colId:*",
+      :fl => "colId",
+      :facets => {:fields => ["colId"]}
     }
 
     response = @solr.find(solr_params, :method => :post)
 
     cols = Set.new
     count = 0
-    response["facet_counts"]['facet_fields']['cid'].each do |col|
+    response["facet_counts"]['facet_fields']['colId'].each do |col|
       if count % 2 == 0
         cols.add col
       end
@@ -26,12 +26,12 @@ module Facet
   
   def get_collection_name(col)
     solr_params =  {
-      :queries => "cid:" + col,
+      :queries => "colId:" + col,
       :rows => 1,
       :start => 1,
-      :fl => "cName"
+      :fl => "colName"
     }
-    @solr.find(solr_params, :method => :post)['response']['docs'][0]['cName']
+    @solr.find(solr_params, :method => :post)['response']['docs'][0]['colName']
   end
   
   def get_collection_hash()
