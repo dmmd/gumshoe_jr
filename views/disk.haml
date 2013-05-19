@@ -73,7 +73,7 @@
 						%br
 						Disk: #{@did}
 						%br
-						%img{:src => "/images/#{@did}p001.JPG"}
+						%img{:src => "/images/#{@did.split(".")[0]}p001.JPG"}
 					%table{:style => "background-color:#ccc"}
 						%thead
 							%tr
@@ -118,11 +118,12 @@
 									%td{:width => "25%"}
 										%a{:href => "/file?id=#{doc['id']}"}="#{doc['filename']}"
 									%td{:width => "25%"}
-										%a{:href => "/component?compId=#{doc['componentIdentifier']}"}= "#{doc['parentseries']} > #{doc['series']}"
+										%a{:href => "/component?compId=#{doc['componentIdentifier']}"}
+										= "#{doc['parentComponentTitle']} > #{doc['componentTitle']}"
 									%td{:width => "25%"}
-										="#{doc['fType']}"
+										="#{doc['fileType']}"
 									%td{:width => "25%"}
-										=@tm.convert_time doc['mDate']
+										=@tm.convert_time doc['modDate']
 
 					
 	%script{:src => "/javascript/jquery.js"}

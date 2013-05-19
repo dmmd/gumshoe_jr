@@ -206,7 +206,7 @@ get '/disk' do
   @version = v
   
   response = solr.get 'select', :params => {
-    :q=>"did:" << @did,
+    :q=>"diskId:" << @did,
     :start=>0,
     :rows=>2000
   }
