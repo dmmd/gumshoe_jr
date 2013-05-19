@@ -266,26 +266,27 @@ get '/collection' do
   
   @version = v
   @page = "Collection Display" 
-  @cid = params[:cid]
+  @colId = params[:cId]
 
   response = solr.get 'select', :params => {
-    :q=>"cid:" << @cid,
+    :q=>"colId:" << @colId,
     :start=>0,
     :rows=>2000,
-    :fl => "series, parentseries, cName, did, componentIdentifier"
+    :fl => "componentTitle, parentComponentTitle, colName, diskId, componentIdentifier"
   }
 
   @components = SortedSet.new
   @media = SortedSet.new
-  @cname
-  @abstract = Abstract.get_abstract(@cid)
+  @cName
+  @abstract = Abstract.get_abstract(@colId)
   response['response']['docs'].each do |doc|
-    @components.add (doc['componentIdentifier'] << "|" << doc['series'])
-    @media.add doc['did']
-    @cname = doc['cName']
+    @components.add (doc['componentIdentifier'] << "|" << doc['componentTitle'])
+    @media.add doc['diskId']
+    @colName = doc['colName']
   end
   
   haml :collection
+  
 end
 
 get '/file' do
