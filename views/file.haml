@@ -65,36 +65,36 @@
 								%td{:width => "15%"}
 									collection name
 								%td
-									%a{:href => "/collection?cid=#{doc['cid']}"}
-										=doc['cName']
+									%a{:href => "/collection?cid=#{doc['colId']}"}
+										=doc['colName']
 							%tr
 								%td
 									component
 								%td
-									=doc['parentseries']  << " > "
 									%a{:href => "/component?compId=#{doc['componentIdentifier']}"}
-										=doc['series']
+										=doc['parentComponentTitle']  << " > "
+										=doc['componentTitle']
 							%tr
 								%td
 									media id
 								%td
-									%a{:href => "/disk?did=#{doc['did']}"}
-										=doc['did']
+									%a{:href => "/disk?did=#{doc['diskId']}"}
+										=doc['diskId']
 							%tr
 								%td
 									path
 								%td
-									=doc['path']
+									=doc['filePath']
 							%tr
 								%td
 									file type
 								%td
-									=doc['fType']
+									=doc['fileType']
 							%tr
 								%td
 									file size
 								%td
-									=@tm.convert_bytes doc['fSize']
+									=@tm.convert_bytes doc['fileSize']
 							%tr
 								%td
 									language
@@ -104,7 +104,7 @@
 								%td
 									last modification date
 								%td
-									=@tm.convert_time doc['mDate']
+									=@tm.convert_time doc['modDate']
 					%h4 Named Entities
 					-ents = {"names" => "names", "orgs" => "organizations", "locs" => "locations"}
 					-ents.each do |ent| 

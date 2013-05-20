@@ -124,40 +124,40 @@
 										%b
 											name:
 										%br
-										%a{:href => "/collection?cid=#{doc['cid']}"}
+										%a{:href => "/collection?cid=#{doc['cId']}"}
 											=doc['cName']
 										%br
 										%b	
 											component:
 										%br
-										=doc['parentseries'] << " > "
 										%a{:href => "/component?compId=#{doc['componentIdentifier']}"}
-											=doc['series']	
+											=doc['parentComponentTitle'] << " > "
+											=doc['componentTitle']	
 										%br
 										%b
 											disk id:
 										%br
-										%a{:href => "/disk?did=#{doc['did']}"}
+										%a{:href => "/disk?did=#{doc['diskId']}"}
 											=doc['did']
 									%td{:width => "20%", :style => "vertical-align:top"}
-										-if !doc['accessfilename'] == nil then
+										-if !doc['accessFilename'] == nil then
 											%b 
 												original filename:
 											%br
 										%b
 											file type:
 										%br
-										=doc['fType']
+										=doc['fileType']
 										%br
 										%b
 											file size:
 										%br
-										=@tm.convert_bytes doc['fSize']
+										=@tm.convert_bytes doc['fileSize']
 										%br
 										%b
 											last modification date:
 										%br
-										=@tm.convert_time doc['mDate']
+										=@tm.convert_time doc['modDate']
 										%br
 										%b
 											language:

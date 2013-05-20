@@ -106,7 +106,7 @@ get_or_post '/results' do
   if(session["limit"] != nil) then
     response = solr.get 'select', :params => {
       :q => @query,
-      :fq => "cid:" << session['limit'],
+      :fq => "colId:" << session['limit'],
       :start=> @start,
       :rows=>20
     }
@@ -297,8 +297,8 @@ get '/file' do
   
   @page = "File Display" 
   @id = params[:id]
-  @fields = {"id" => "id", "filename" => "filename", "file type" => "fType", "size" => "fSize", "original filename" => "accessfilename", "last modification date" => "mDate", "language" => "language", "collection" => "cName", "series" => "series", "disk" => "did", "path" => "path"}
-  @links = {"collection" => "cid", "series" => "series", "disk" => "did"}
+  #@fields = {"id" => "id", "filename" => "filename", "file type" => "fType", "size" => "fSize", "original filename" => "accessfilename", "last modification date" => "mDate", "language" => "language", "collection" => "cName", "series" => "series", "disk" => "did", "path" => "path"}
+  #@links = {"collection" => "cid", "series" => "series", "disk" => "did"}
   @version = v
   @tm = TimeModule
   response = solr.get 'select', :params => {
@@ -338,7 +338,7 @@ end
 
 get '/limit' do
   session["limit"] = params[:cid]
-  redirect "/results?query=#{params[:query]}&qType=#{params[:qType]}&cName=#{params[:cName]}"
+  redirect "/results?query=#{params[:query]}&qType=#{params[:qType]}&cName=#{params[:colName]}"
 end
 
 get '/session' do

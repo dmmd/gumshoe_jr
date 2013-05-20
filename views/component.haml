@@ -99,13 +99,13 @@
 							- @result['response']['docs'].each do |doc|
 								%tr
 									%td{:width => "25%"}
-										%a{:href => "/file?id=#{doc['id']}"}="#{doc['accessname']}"
+										%a{:href => "/file?id=#{doc['id']}"}="#{doc['accessFilename']}"
 									%td{:width => "25%"}
-										="#{doc['fType']}"
+										="#{doc['fileType']}"
 									%td{:width => "25%"}
-										=@tm.convert_time(doc['mDate'])
+										=@tm.convert_time(doc['modDate'])
 									%td{:width => "25%"}
-										%a{:href => "/disk?did=#{doc['did']}" }="#{doc['did']}"
+										%a{:href => "/disk?did=#{doc['diskId']}" }="#{doc['diskId']}"
 	%script{:src => "/javascript/jquery.js"}
 	%script{:src => "/javascript/bootstrap-transition.js"}
 	%script{:src => "/javascript/bootstrap-alert.js"}
