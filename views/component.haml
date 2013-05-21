@@ -57,7 +57,7 @@
 						%a{:href => "/collection?cid=#{@result['response']['docs'][0]['cid']}"}
 							#{@result['response']['docs'][0]['cName']}
 						%br
-						archival file:  #{@result['response']['docs'][0]['parentseries']} > #{@result['response']['docs'][0]['series']}
+						archival file:  #{@result['response']['docs'][0]['parentComponentTitle']} > #{@result['response']['docs'][0]['componentTitle']}
 					%table{:class => "table"}
 						%thead
 							%tr
