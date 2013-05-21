@@ -1,8 +1,10 @@
 module Facet
   require 'rsolr-ext'
+  require 'sinatra/config_file'
   
+  config_file './conf/eri.yml'
   
-  @solr = RSolr.connect :url => "http://localhost:8983/solr"
+  @solr = RSolr.connect :url => settings.solr
   
   def get_collection_nums()
     solr_params =  {
