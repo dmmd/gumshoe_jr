@@ -377,7 +377,7 @@ get '/api_locs' do
   @loc = params[:loc]
   @rows = params[:rows]
   response = solr.get 'select', :params => {
-    :q => "locs:" + @name,
+    :q => "locs:" + @loc,
     :start=> @start,
     :rows=> @rows
   }
