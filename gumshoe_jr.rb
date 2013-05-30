@@ -372,3 +372,15 @@ get '/api_names' do
   content_type :json
   response.to_json
 end
+
+get '/api_locs' do
+  @loc = params[:loc]
+  @rows = params[:rows]
+  response = solr.get 'select', :params => {
+    :q => "locs:" + @name,
+    :start=> @start,
+    :rows=> @rows
+  }
+  content_type :json
+  response.to_json
+end
