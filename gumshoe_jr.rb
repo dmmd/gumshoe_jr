@@ -9,6 +9,7 @@ require './lib/log.rb'
 require './lib/abstract.rb'
 require './lib/facet.rb'
 require 'sinatra/flash'
+require 'json'
 
 include TimeModule
 include EriAuth
@@ -358,4 +359,16 @@ get '/admin' do
   @version = v
   @page = "Administration"
   haml :admin
+end
+
+get '/api_names' do
+  @name = params[:name]
+  @rows = params[:rows]
+  response = solr.get 'select', :params => {
+    :q => "names:" + @name,
+    :start=> @start,
+    :rows=> @rows
+  }
+  content_type :json
+  response.to_json
 end
