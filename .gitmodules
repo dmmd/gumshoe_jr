@@ -1,6 +1,6 @@
-[submodule "jetty"]
-	path = jetty
-	url = https://github.com/dmmd/gumshoejr_jetty.git
 [submodule "solrizer"]
 	path = solrizer
-	url = https://github.com/dmmd/gumshoejr_solrizer.git
+	url = git://github.com/dmmd/gumshoejr_solrizer
+[submodule "jetty"]
+	path = jetty
+	url = git://github.com/dmmd/gumshoejr_jetty
