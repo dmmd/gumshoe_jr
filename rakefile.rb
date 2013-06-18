@@ -1,11 +1,80 @@
 require 'rsolr-ext'
 require 'yaml'
 require 'rake'
+require './lib/sec.rb'
+require './lib/login.rb'
 
 settings = YAML.load(File.open("conf/eri.yml"))
 
 namespace :eri do
   solr = RSolr.connect :url => settings['solr']
+  
+  task :init do
+
+    include Sec
+    puts "initializing application"
+    log = "log/events.log"
+    #create the event log
+    if(File.exist? log) then
+      puts "log exists"
+    else
+      puts "creating event log"
+      File.new(log, "w")
+      if(File.exist? log) then
+        puts "event log creation successful"
+      else
+        puts "event log not created"
+        if(File.exist? log) then
+          puts "log exists"
+        else
+          puts "creating event log"
+        end
+      end
+    end
+      
+    #create the access file
+    access_file = "access.txt"
+    if File.exist? access_file then
+      puts "access file exists"
+    else
+      puts "creating access file"
+      puts "enter a password for the admin account"
+      pass = STDIN.gets.chomp
+      line = Sec.generate_admin(pass)
+      File.new(access_file, "w")
+      File.open(access_file, 'a') do |f|
+        f.puts(line)
+      end
+    end
+    
+  end
+  
+  namespace :login do
+    include EriAuth
+    task :authenticate do
+      puts "enter username"
+      login = STDIN.gets.chomp
+      puts "enter password"
+      password = STDIN.gets.chomp
+      if EriAuth.test_login(login, password) then
+        puts "credentials are valid"
+      else
+        puts "credentials are not valid"
+      end
+    end
+    task :add_user do
+      include Sec
+      puts "enter username"
+      login = STDIN.gets.chomp
+      puts "enter password"
+      password = STDIN.gets.chomp
+      line = Sec.generate_user(login, password)
+      File.open("access.txt", 'a') do |f|
+        f.puts(line)
+      end
+    end
+  end
+  
   namespace :index do
     desc "Optimize Solr index"
     task :optimize do
