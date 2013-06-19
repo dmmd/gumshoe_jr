@@ -12,4 +12,8 @@
             <colTitle>The September 11th Fund records</colTitle>
             <colAbstract>Abstract forthcoming...</colAbstract>
         </archivalAbstract>
+		<archivalAbstract id="M1">
+            <colTitle>The Gumshoe Jr Test records</colTitle>
+            <colAbstract>This is the abstract of the Gumshoe Jr Test records. It was created to test the Gumshoe Jr application and does not say much</colAbstract>
+        </archivalAbstract>
     </archivalAbstracts>

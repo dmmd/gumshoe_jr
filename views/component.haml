@@ -53,11 +53,13 @@
 					.hero-unit
 						%h1
 							#{@page}
-					%h2
+					%h4
 						%a{:href => "/collection?cid=#{@result['response']['docs'][0]['cid']}"}
 							#{@result['response']['docs'][0]['cName']}
 						%br
-						archival file:  #{@result['response']['docs'][0]['parentComponentTitle']} > #{@result['response']['docs'][0]['componentTitle']}
+						archival file:
+						%br 
+					%h2 #{@result['response']['docs'][0]['localIdentifier'] + ". " + @result['response']['docs'][0]['componentTitle']}
 					%table{:class => "table"}
 						%thead
 							%tr
@@ -99,7 +101,7 @@
 							- @result['response']['docs'].each do |doc|
 								%tr
 									%td{:width => "25%"}
-										%a{:href => "/file?id=#{doc['id']}"}="#{doc['accessFilename']}"
+										%a{:href => "/file?id=#{doc['id']}"}="#{doc['filename']}"
 									%td{:width => "25%"}
 										="#{doc['fileType']}"
 									%td{:width => "25%"}

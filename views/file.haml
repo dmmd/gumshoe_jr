@@ -65,14 +65,13 @@
 								%td{:width => "15%"}
 									collection name
 								%td
-									%a{:href => "/collection?cid=#{doc['colId']}"}
+									%a{:href => "/collection?cId=#{doc['colId']}"}
 										=doc['colName']
 							%tr
 								%td
 									component
 								%td
 									%a{:href => "/component?compId=#{doc['componentIdentifier']}"}
-										=doc['parentComponentTitle']  << " > "
 										=doc['componentTitle']
 							%tr
 								%td

@@ -273,7 +273,7 @@ get '/collection' do
     :q=>"colId:" << @colId,
     :start=>0,
     :rows=>2000,
-    :fl => "componentTitle, parentComponentTitle, colName, diskId, componentIdentifier"
+    :fl => "componentTitle, colName, diskId, componentIdentifier, localIdentifier"
   }
 
   @components = SortedSet.new
