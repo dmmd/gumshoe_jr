@@ -58,9 +58,16 @@
 					%h3
 						Filename: 
 						=doc['filename']
+						
 					%h4 Metadata
 					%table.table
 						%tbody
+							-if doc['accessFilename'] != nil then
+								%tr
+									%td{:width => '15%'}
+										access filename
+									%td
+										=doc['accessFilename']
 							%tr
 								%td{:width => "15%"}
 									collection name
@@ -72,7 +79,7 @@
 									component
 								%td
 									%a{:href => "/component?compId=#{doc['componentIdentifier']}"}
-										=doc['componentTitle']
+										=doc['localIdentifier'] + ". " + doc['componentTitle']
 							%tr
 								%td
 									media id
