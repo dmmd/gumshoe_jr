@@ -32,7 +32,7 @@
 						%span.icon-bar
 						%span.icon-bar
 						%span.icon-bar
-					%a.brand{:href => "#"} Electronic Records Index
+					%div.brand Electronic Records Index
 					.nav-collapse
 						%ul.nav
 							%li.active
@@ -125,20 +125,19 @@
 											name:
 										%br
 										%a{:href => "/collection?cid=#{doc['cId']}"}
-											=doc['cName']
+											=doc['colName']
 										%br
 										%b	
 											component:
 										%br
 										%a{:href => "/component?compId=#{doc['componentIdentifier']}"}
-											=doc['parentComponentTitle'] << " > "
-											=doc['componentTitle']	
+											=doc['localIdentifier'] + ". " + doc['componentTitle']	
 										%br
 										%b
 											disk id:
 										%br
 										%a{:href => "/disk?did=#{doc['diskId']}"}
-											=doc['did']
+											=doc['diskId']
 									%td{:width => "20%", :style => "vertical-align:top"}
 										-if !doc['accessFilename'] == nil then
 											%b 

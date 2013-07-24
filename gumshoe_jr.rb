@@ -272,7 +272,7 @@ get '/collection' do
   response = solr.get 'select', :params => {
     :q=>"colId:" << @colId,
     :start=>0,
-    :rows=>2000,
+    :rows=>20000,
     :fl => "componentTitle, colName, diskId, componentIdentifier, localIdentifier"
   }
 
@@ -281,7 +281,7 @@ get '/collection' do
   @cName
   @abstract = Abstract.get_abstract(@colId)
   response['response']['docs'].each do |doc|
-    @components.add (doc['componentIdentifier'] << "|" << doc['componentTitle'])
+    @components.add (doc['componentIdentifier'] << "|" << doc['componentTitle'] << "|" << doc['localIdentifier'])
     @media.add doc['diskId']
     @colName = doc['colName']
   end
@@ -383,4 +383,14 @@ get '/api_locs' do
   }
   content_type :json
   response.to_json
+end
+
+get '/test' do
+  response = solr.get 'select', :params => {
+    :q=>"colId:M6196",
+    :start=>0,
+    :rows=>2000,
+    :fl => "componentTitle"
+  }
+  @res = response
 end

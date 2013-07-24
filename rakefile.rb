@@ -97,7 +97,15 @@ namespace :eri do
           puts "error: " << response
         end
     end
-  
+    
+    desc "Delete all records from a compent"
+    task :del_comp do
+      solr.delete_by_query("componentIdentifier:" + ENV['COMP'])
+      solr.commit
+      solr.optimize
+      puts "complete"
+    end
+    
     desc "Returns the count of records in the index"
     
     task :get_count do
@@ -116,6 +124,13 @@ namespace :eri do
       solr.optimize
     end
     
+    desc "Deleta a fileType"
+    task :del_type do
+      solr.delete_by_query("fileType:" + ENV['TYPE'])
+      solr.commit
+      solr.optimize
+    end
+    
     desc "Run a query"
     task :query do
       response = solr.get('select',
@@ -128,29 +143,9 @@ namespace :eri do
     
     desc "Delete all records in the index for a collection"
     task :del_col do
-      col = "cid: " + ENV['COL']
-      
-      solr_params =  {
-        :queries => "cid:*",
-        :facets =>{:fields => ["cid"]}
-      }
-      
-      response = solr.find(solr_params, :method => :post)
-      cArray = response['facet_counts']['facet_fields']['cid']
-      hash = Hash[cArray.map.with_index.to_a]
-      index = hash[ENV['COL']].to_i + 1
-      puts "deleting " + cArray[index].to_s + " records from index"
-      puts "proceed - 'yes'"
-      r = STDIN.gets.chomp
-      
-      if r == "yes" then
-        solr.delete_by_query col
-        solr.commit
-        solr.optimize
-        puts "All records from " + ENV['COL'] + "deleted from index"
-      else
-        puts "Cancelling deletion"
-      end
+      solr.delete_by_query("colId:" + ENV['COL'])
+      solr.commit
+      solr.optimize
     end 
   end
 end

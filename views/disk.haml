@@ -34,7 +34,7 @@
 						%span.icon-bar
 						%span.icon-bar
 						%span.icon-bar
-					%a.brand{:href => "#"} Electronic Records Index
+					%div.brand Electronic Records Index
 					.nav-collapse
 						%ul.nav
 							%li.active
@@ -119,7 +119,7 @@
 										%a{:href => "/file?id=#{doc['id']}"}="#{doc['filename']}"
 									%td{:width => "25%"}
 										%a{:href => "/component?compId=#{doc['componentIdentifier']}"}
-										= "#{doc['parentComponentTitle']} > #{doc['componentTitle']}"
+											="#{doc['componentTitle']}"
 									%td{:width => "25%"}
 										="#{doc['fileType']}"
 									%td{:width => "25%"}
