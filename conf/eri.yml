@@ -1,4 +1,5 @@
-solr: http://localhost:8983/solr
+solr: http://localhost:8983/solr/eri
+solr_entities: http://localhost:8983/solr/eri_ent
 classpath: ./lib/java_lib/
 department: 'The Manuscripts & Archives Division'
 organization: "The New York Public Library"

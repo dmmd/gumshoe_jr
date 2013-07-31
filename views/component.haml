@@ -73,23 +73,20 @@
 								%td
 									%div{:id => "wordcloud",:style => "height:300px;width:300px"}
 										-@names.each do |name|
-											-if name[1] > 0 then
-												%span{:'data-weight' => "#{name[1]}"}
-													=name[0]
+											%span{:'data-weight' => "#{name[1]}"}
+												=name[0]
 								%td{:style => "background-color:#fff"}
 								%td
 									%div{:id => "wordcloud2", :style => "height:300px;width:300px"}
 										-@orgs.each do |org|
-											-if org[1] > 0 then
-												%span{:'data-weight' => "#{org[1]}"}
-													=org[0]
+											%span{:'data-weight' => "#{org[1]}"}
+												=org[0]
 								%td{:style => "background-color:#fff"}
 								%td
 									%div{:id => "wordcloud3", :style => "height:300px;width:300px"}
 										-@locs.each do |loc|
-											-if loc[1] > 0 then
-												%span{:'data-weight' => "#{loc[1]}"}
-													=loc[0]
+											%span{:'data-weight' => "#{loc[1]}"}
+												=loc[0]
 					%table.table
 						%thead
 							%tr

@@ -8,6 +8,7 @@ require './lib/login.rb'
 require './lib/log.rb'
 require './lib/abstract.rb'
 require './lib/facet.rb'
+require './lib/ents.rb'
 require 'sinatra/flash'
 require 'json'
 
@@ -16,6 +17,7 @@ include EriAuth
 include EriLog
 include Abstract
 include Facet
+include Entities
 
 v = "Electronic Records Index [0.3.0a]"
 title = "Manuscripts and Archives Division: Electronic Records Index"
@@ -32,6 +34,7 @@ end
 
 config_file './conf/eri.yml'
 solr = RSolr.connect :url => settings.solr
+solr_entities = RSolr.connect :url => settings.solr_entities
 
 def get_or_post(path, opts={}, &block)
   get(path, opts, &block)
@@ -144,54 +147,15 @@ get '/component' do
   response = solr.get 'select', :params => {
     :q=>"componentIdentifier:" << @compId,
     :start=>0,
-    :rows=>2000
+    :rows=>5000
   }
+  
   @result = response
   @version = v
-  @names = Hash.new
-  @orgs = Hash.new
-  @locs = Hash.new
+  @names = Entities.getHash(solr_entities, @compId, "name")
+  @orgs = Entities.getHash(solr_entities, @compId, "org")
+  @locs = Entities.getHash(solr_entities, @compId, "loc")
   @tm = TimeModule
-  
-  response['response']['docs'].each do |doc|
-  	
-  	if doc['names'] then
-    	doc['names'].each do |name|
-    	  name = name.tr("'", "")
-    	  name = name.tr('"', '')
-        if @names.has_key? name then
-          @names[name] = @names[name] + 1
-        else
-          @names[name] = 1
-        end
-    	end
-    end
-  	
-  	if doc['orgs'] then
-    	doc['orgs'].each do |org|
-    	  org = org.tr("'", "")
-    	  org = org.tr('"', '')
-        if @orgs.has_key? org then
-          @orgs[org] = @orgs[org] + 1
-        else
-          @orgs[org] = 1
-        end
-    	end
-    end
-    
-    if doc['locs'] then
-      doc['locs'].each do |loc|
-    	  loc = loc.tr("'", "")
-    	  loc = loc.tr('"', '')
-        if @locs.has_key? loc then
-          @locs[loc] = @locs[loc] + 1
-        else
-          @locs[loc] = 1
-        end
-    	end
-  	end
-  end
-
   haml :component
 end
 
@@ -207,53 +171,14 @@ get '/disk' do
   @version = v
   
   response = solr.get 'select', :params => {
-    :q=>"diskId:" << @did,
+    :q=>"diskId:" + @did,
     :start=>0,
-    :rows=>2000
+    :rows=>20000
   }
   
-  @names = Hash.new
-  @orgs = Hash.new
-  @locs = Hash.new
-  response['response']['docs'].each do |doc|
-  	
-  	if doc['names'] then
-    	doc['names'].each do |name|
-    	  name = name.tr("'", "")
-    	  name = name.tr('"', '')
-        if @names.has_key? name then
-          @names[name] = @names[name] + 1
-        else
-          @names[name] = 1
-        end
-    	end
-    end
-  	
-  	if doc['orgs'] then
-    	doc['orgs'].each do |org|
-    	  org = org.tr("'", "")
-    	  org = org.tr('"', '')
-        if @orgs.has_key? org then
-          @orgs[org] = @orgs[org] + 1
-        else
-          @orgs[org] = 1
-        end
-    	end
-    end
-    
-    if doc['locs'] then
-      doc['locs'].each do |loc|
-    	  loc = loc.tr("'", "")
-    	  loc = loc.tr('"', '')
-        if @locs.has_key? loc then
-          @locs[loc] = @locs[loc] + 1
-        else
-          @locs[loc] = 1
-        end
-    	end
-  	end
-  end
-
+  @names = Entities.getHash(solr_entities, @did, "name")
+  @orgs = Entities.getHash(solr_entities, @did, "org")
+  @locs = Entities.getHash(solr_entities, @did, "loc")
   @result = response
   @tm = TimeModule
   haml :disk
