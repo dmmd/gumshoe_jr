@@ -310,6 +310,18 @@ get '/api_locs' do
   response.to_json
 end
 
+get '/api_orgs' do
+  @org = params[:org]
+  @rows = params[:rows]
+  response = solr.get 'select', :params => {
+    :q => "orgs:" + @org,
+    :start=> @start,
+    :rows=> @rows
+  }
+  content_type :json
+  response.to_json
+end
+
 get '/test' do
   response = solr.get 'select', :params => {
     :q=>"colId:M6196",
