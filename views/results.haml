@@ -38,7 +38,7 @@
 							%li.active
 								%a{:href => "/"} Home
 							%li
-								%a{:href => "#{settings.contact_form}"} About
+								%a{:href => "/about"} About
 							%li
 								%a{:href => "#{settings.contact_form}", :target => "_blank"} Contact
 						%p.navbar-text.pull-right
@@ -124,7 +124,7 @@
 										%b
 											name:
 										%br
-										%a{:href => "/collection?cid=#{doc['cId']}"}
+										%a{:href => "/collection?colId=#{doc['colId']}"}
 											=doc['colName']
 										%br
 										%b	
