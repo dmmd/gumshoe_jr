@@ -192,7 +192,7 @@ get '/collection' do
   
   @version = v
   @page = "Collection Display" 
-  @colId = params[:colId]
+  @colId = params[:cId]
 
   response = solr.get 'select', :params => {
     :q=>"colId:" << @colId,
