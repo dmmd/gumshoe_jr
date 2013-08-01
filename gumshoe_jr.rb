@@ -195,7 +195,7 @@ get '/collection' do
   @colId = params[:cId]
 
   response = solr.get 'select', :params => {
-    :q=>"colId:" << @colId,
+    :q=>"colId:" + params[:cId],
     :start=>0,
     :rows=>20000,
     :fl => "componentTitle, colName, diskId, componentIdentifier, localIdentifier"
