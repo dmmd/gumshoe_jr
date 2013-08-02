@@ -19,7 +19,7 @@ include Abstract
 include Facet
 include Entities
 
-v = "Electronic Records Index [0.3.0a]"
+v = "[0.5.0b]"
 title = "Manuscripts and Archives Division: Electronic Records Index"
 enable :sessions
 
@@ -264,7 +264,7 @@ end
 
 get '/limit' do
   session["limit"] = params[:cid]
-  redirect "/results?query=#{params[:query]}&qType=#{params[:qType]}&cName=#{params[:colName]}"
+  redirect "/results?query=#{params[:query]}&qType=#{params[:qType]}&cName=#{params[:cName]}"
 end
 
 get '/session' do

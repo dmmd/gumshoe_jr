@@ -64,8 +64,14 @@
 						-if flash[:notice]
 							%h1{:class => "alert"}
 								=flash[:notice]
+						%p 
+							#{settings.organization}
+							%br 
+							#{settings.department}
 						%h1
 							#{@page}
+						built with 
+						%a{:href => "http://github.com/dmmd/gumshoe_jr"}gumshoe_jr v. #{@version}
 						%h3
 							search:
 							%form{:action => "/results", :method => "post"}

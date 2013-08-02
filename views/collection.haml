@@ -62,11 +62,11 @@
 									%option{:value => "locs"} locations
 								%input{:type => "hidden", :name => "start", :value => 0}
 								%input{:type => "submit"}
-						%h1
-							#{@page}
+						%h2
+							#{@colId}: #{@colName}
 						
-					%h2
-						#{@colId}: #{@colName}
+					%h3
+						#{@page}
 					%h3 Abstract
 					%p 
 						=@abstract

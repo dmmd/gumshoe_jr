@@ -79,8 +79,10 @@
 							%td
 								%ul{:class => "nav nav-tabs nav-stacked collection-info-sidenav"}
 									-if session.has_key? "limit" then
-										limited to 
-										%b #{@cName}
+										limited to: 
+										%b 
+											#{@cName}
+										%br
 										%a{:href => "/remove?query=#{@q}&qType=#{@qt}&cid=#{session[:limit]}"}
 											remove
 									-else
