@@ -1,0 +1,10 @@
+Screen 0 - home screen
+Screen 1-1-1
+	Curious how an appraiser would know which folders to select/deselect at this point in the workflow
+	
+Transfer: 
+
+What is the yield of a transfer -- information in a database or is there an actual document of recored, e.g. a new MBox file. I'd like be able to document and preserve the transfer is the information serialized anywhere. 
+
+loading the email into the appraisal module does not constitute 'transfer' if data is being loaded into a system, then what is this action.
+ 

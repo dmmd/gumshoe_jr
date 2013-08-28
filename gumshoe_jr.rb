@@ -9,6 +9,7 @@ require './lib/log.rb'
 require './lib/abstract.rb'
 require './lib/facet.rb'
 require './lib/ents.rb'
+require './lib/formats.rb'
 require 'sinatra/flash'
 require 'json'
 
@@ -18,6 +19,7 @@ include EriLog
 include Abstract
 include Facet
 include Entities
+include Formats
 
 v = "[0.5.0b]"
 title = "Manuscripts and Archives Division: Electronic Records Index"
@@ -210,6 +212,8 @@ get '/collection' do
     @media.add doc['diskId']
     @colName = doc['colName']
   end
+  
+  @formats = Formats.get_formats(solr, params[:cId])
   
   haml :collection
   

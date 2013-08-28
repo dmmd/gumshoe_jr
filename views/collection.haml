@@ -73,21 +73,27 @@
 					%table.table{:width => "100%"}
 						%thead
 							%tr
-								%th{:style => "width:33%"} archival files
-								%th media items
+								%th{:style => "width:25%"} archival files
+								%th{:style => "width:25%"} media items
+								%th{:style => "width:25%"} common terms
+								%th{:style => "width:25%"} file formats
 						%tbody
 							%tr
-								%td{:style => "vertical-align:top"}
+								%td{:style => "vertical-align:top;width:25%"}
 									- @components.each do |ser|
 										%a{:href => "/component?compId=#{ser.split('|')[0]}"}
 											=ser.split('|')[2] + ". " + ser.split('|')[1]
 										%br
-								%td
+								%td{:style => "vertical-align:top;width:25%"}
 									- @media.each do |disk|
 										%a{:href => "/disk?did=#{disk}"}
 											#{disk}
 										%br
-					
+								%td{:style => "vertical-align:top;width:25%"}
+								%td{:style => "vertical-align:top;width:25%"}
+									-@formats.each do |format|
+										#{format[0] + " (" + format[1].to_s + ")"}
+										%br
 					
 	%script{:src => "/javascript/jquery.js"}
 	%script{:src => "/javascript/bootstrap-transition.js"}
