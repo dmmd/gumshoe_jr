@@ -131,6 +131,13 @@ namespace :eri do
       solr.optimize
     end
     
+    desc "Deleta a mediaType"
+    task :del_media do
+      solr.delete_by_query("tikaMime:" + ENV['TYPE'])
+      solr.commit
+      solr.optimize
+    end
+    
     desc "Run a query"
     task :query do
       response = solr.get('select',

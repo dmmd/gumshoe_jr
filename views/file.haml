@@ -123,9 +123,9 @@
 							-set.each do |member|
 								%a{:href => "/results?qType=#{ent[0]}&query=%22#{member}%22"}
 									- if count < set.size - 1
-										= "#{member},  "
+										#{member +","}
 									- else
-										= "#{member}"
+										#{member} 
 								- count += 1
 						%br
 	%script{:src => "/javascript/jquery.js"}

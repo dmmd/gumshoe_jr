@@ -56,26 +56,24 @@
 					%p
 						%i
 							Electronic Records Index 
-						is a full-text index of text-based digital documents from collections held in 
+						is a full-text index of born-digital records from collections held in 
 						%a{:href => "#{settings.homepage}"}
 							#{settings.department} 
 						of #{settings.organization}.
-						These text-based documents have been indexed by means of migration to Microsoft's .docx format and file parsing with 
-						%a{:href => "http://apache.org/"}
-							the Apache Software Foundation's 
+						Some legacy formats have migrated to Microsoft's .docx format for indexing purposes.
+						The Apache Software Foundation's 
 						%a{:href => "http://tika.apache.org/"}
-							%i Tika Library
-						, with Named Entity Extraction performed by
-						%a{:href => "http://apache.org/"} 
-							the Apache Software Foundation's 
+							%i Tika
+						and 
 						%a{:href => "http://opennlp.apache.org"}
-							%i Open NLP Library.
-						
-						%br
-						%br
+							%i Open NLP Library
+						libraries are used for content extraction and named entity extraction, respectively. Source code for the project can be found on 
+						%a{:href => "http://github.com/dmmd/gumshoe_jr"} github
+					%p
 						All record's in the index can be consulted in #{settings.department}'s reading room with advanced notification. For more information, 
 						%a{:href => "#{settings.homepage}"}
 							contact #{settings.department}
+							
 	%script{:src => "/javascript/jquery.js"}
 	%script{:src => "/javascript/bootstrap-transition.js"}
 	%script{:src => "/javascript/bootstrap-alert.js"}
