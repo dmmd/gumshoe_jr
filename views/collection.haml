@@ -25,76 +25,72 @@
 		%link{:href => "images/apple-touch-icon-72x72.png", :rel => "apple-touch-icon", :sizes => "72x72"}/
 		%link{:href => "images/apple-touch-icon-114x114.png", :rel => "apple-touch-icon", :sizes => "114x114"}/
 	%body
-		.navbar.navbar-fixed-top
-			.navbar-inner
-				.container-fluid
-					%a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
-						%span.icon-bar
-						%span.icon-bar
-						%span.icon-bar
-					%div.brand Electronic Records Index
-					.nav-collapse
-						%ul.nav
-							%li.active
-								%a{:href => "/"}Home
-							%li
-								%a{:href => "/about"}About
-							%li
-								%a{:href => "#{settings.contact_form}", :target => "_blank"} Contact
-						%p.navbar-text.pull-right
-							Logged in as
-							%a{:href => "#"}#{session['user']}
-							|
-							%a{:href => "/logout"} logout
-		.container-fluid
-			.row-fluid
+		.container_fluid
+			.row_fluid
+				.navbar.navbar-fixed-top
+					.navbar-inner
+						%a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
+							%span.icon-bar
+							%span.icon-bar
+							%span.icon-bar
+						%div.brand Electronic Records Index
+						.nav-collapse
+							%ul.nav
+								%li
+									%a{:href => "/"}Home
+								%li
+									%a{:href => "/about"}About
+								%li
+									%a{:href => "#{settings.contact_form}", :target => "_blank"} Contact
+								%li 
+									%a New Search:
+								%li
+									%a
+										%form{:action => "/results", :method => "post"}
+											%input{:type => "text",  :name => "query", :size => 50, :style => "font-size: 18px;"}
+											%select{:name => "qType"}
+												%option{:value => "full text"} full text
+												%option{:value => "names"} names
+												%option{:value => "orgs"} organizations
+												%option{:value => "locs"} locations
+											%input{:type => "hidden", :name => "start", :value => 0}
+											%input{:type => "submit"}
+							%p.navbar-text.pull-right
+								Logged in as
+								%a{:href => "#"}#{session['user']}
+								|
+								%a{:href => "/logout"} logout
+			.row_fluid
 				.span1
 				.span10
-					.hero-unit
-						%h3
-							new search:
-							%form{:action => "/results", :method => "post"}
-								%input{:type => "text",  :name => "query", :size => 50, :style => "font-size: 18px;"}
-								%select{:name => "qType"}
-									%option{:value => "full text"} full text
-									%option{:value => "names"} names
-									%option{:value => "orgs"} organizations
-									%option{:value => "locs"} locations
-								%input{:type => "hidden", :name => "start", :value => 0}
-								%input{:type => "submit"}
-						%h2
-							#{@colId}: #{@colName}
-						
-					%h3
-						#{@page}
+					%h2 #{@colId}: #{@colName}
 					%h3 Abstract
 					%p 
 						=@abstract
 					%table.table{:width => "100%"}
 						%thead
 							%tr
-								%th{:style => "width:25%"} archival files
-								%th{:style => "width:25%"} media items
-								%th{:style => "width:25%"} common terms
-								%th{:style => "width:25%"} file formats
+								%th{:style => "width:33%"} archival files
+								%th{:style => "width:33%"} media items
+								%th{:style => "width:33%"} file formats
 						%tbody
 							%tr
-								%td{:style => "vertical-align:top;width:25%"}
+								%td{:style => "vertical-align:top;width:33%"}
 									- @components.each do |ser|
 										%a{:href => "/component?compId=#{ser.split('|')[0]}"}
 											=ser.split('|')[2] + ". " + ser.split('|')[1]
 										%br
-								%td{:style => "vertical-align:top;width:25%"}
+								%td{:style => "vertical-align:top;width:33%"}
 									- @media.each do |disk|
 										%a{:href => "/disk?did=#{disk}"}
 											#{disk}
 										%br
-								%td{:style => "vertical-align:top;width:25%"}
-								%td{:style => "vertical-align:top;width:25%"}
+								%td{:style => "vertical-align:top;width:33%"}
 									-@formats.each do |format|
-										#{format[0] + " (" + format[1].to_s + ")"}
-										%br
-					
+										-if format[1] > 0
+											#{format[0] + " (" + format[1].to_s + ")"}
+											%br
+																							
 	%script{:src => "/javascript/jquery.js"}
 	%script{:src => "/javascript/bootstrap-transition.js"}
 	%script{:src => "/javascript/bootstrap-alert.js"}

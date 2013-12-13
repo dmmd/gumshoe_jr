@@ -15,17 +15,31 @@ module Formats
     formats = Hash.new
     current_format = nil     
     
-    request.facet_counts['facet_fields']['fileType'].each do |format|  
-      if count < size
+    format_hash =  request.facet_counts['facet_fields']['fileType']
+    
+    if format_hash.size > 20
+      format_hash.each do |format|  
+        if count < size
+          if count % 2 == 0
+            puts format
+            current_format = format
+          else
+            formats[current_format] = format
+          end
+        end
+        count += 1
+      end
+    else
+      puts "LESS THAN 20"
+      format_hash.each do |format|  
         if count % 2 == 0
           current_format = format
         else
           formats[current_format] = format
         end
-      end
       count += 1
+      end
     end
-
     formats
   end
 end
